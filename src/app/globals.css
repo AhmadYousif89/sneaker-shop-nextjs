@@ -2,26 +2,57 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+@layer base {
+	:root {
+		font-size: 62.5%;
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	input:not(:focus-visible, :placeholder-shown) + span {
+		display: none;
+	}
+	input:-webkit-autofill,
+	input:-webkit-autofill:hover,
+	input:-webkit-autofill:focus,
+	input:-webkit-autofill:active {
+		-webkit-transition-delay: 9999s;
+		transition-delay: 9999s;
+	}
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
+@layer utilities {
+	.scrollbar-hide::-webkit-scrollbar {
+		display: none;
+	}
+	.scrollbar-hide {
+		-ms-overflow-style: none;
+		scrollbar-width: none;
+	}
+	.fake-placeholder {
+		@apply absolute left-8 pointer-events-none text-xl tracking-wider transition-all duration-300 peer-placeholder-shown:text-Grayish_blue peer-placeholder-shown:text-2xl peer-focus-visible:text-xl peer-focus-visible:-translate-y-12 peer-focus-visible:bg-white peer-focus-visible:text-Orange/75 peer-focus-visible:font-bold;
+	}
+	.wave {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		overflow: hidden;
+		line-height: 0;
+	}
+	.wave svg {
+		position: relative;
+		display: block;
+		width: calc(147% + 1.3px);
+		height: 160px;
+	}
+	.wave .shape-fill {
+		fill: #ffffff;
+	}
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+	@media (max-width: 767px) {
+		.wave svg {
+			width: calc(265% + 1.3px);
+			height: 160px;
+		}
+	}
 }
