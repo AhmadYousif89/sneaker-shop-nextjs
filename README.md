@@ -27,8 +27,9 @@ This is an **Extra featured** solution to the [E-commerce product page challenge
 
 ### Links
 
-- Solution URL: [Add solution URL here](https://github.com/AhmadYousif89/sneaker-shop-nextjs)
-- Live Site URL: [Add live site URL here](https://fe-sneakers.vercel.app)
+- Live Site URL : [next-sneaker](https://next-sneaker.vercel.app/)
+- Github URL : [Github Code](https://github.com/AhmadYousif89/sneaker-shop-nextjs)
+- Performance test URL : [PageSpeed Insights](https://pagespeed.web.dev/analysis/https-next-sneaker-vercel-app/otfmz6krmx?form_factor=desktop)
 
 ### Built with
 
