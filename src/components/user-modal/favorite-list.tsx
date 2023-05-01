@@ -58,7 +58,7 @@ export const FavoriteList = () => {
 							alt={item.title}
 							className='w-20 rounded-xl'
 						/>
-						<p className='text-xl font-medium text-Dark_grayish_blue'>{item.title}</p>
+						<p className='text-xl text-Dark_grayish_blue'>{item.title}</p>
 					</ListItem>
 				))}
 			</ul>

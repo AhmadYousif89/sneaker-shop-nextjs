@@ -18,11 +18,6 @@ const DynamicHeader = dynamic<any>(
 	}
 );
 
-export const metadata: Metadata = {
-	title: 'Sneakers Shop',
-	description: 'The best sneaker shop in the world.'
-};
-
 const kumbhSans = Kumbh_Sans({ subsets: ['latin'] });
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
