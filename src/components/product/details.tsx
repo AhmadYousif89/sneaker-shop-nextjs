@@ -89,7 +89,7 @@ export const ProductDetails = ({ id }: { id: number }) => {
 							setShowMsg(false);
 						}}
 						rounded={'full'}
-						className='p-2 focus-visible:outline-dashed active:translate-y-px hover:bg-Very_light_grayish_blue'>
+						className='p-2 focus-visible:outline-dotted active:translate-y-px hover:bg-Very_light_grayish_blue'>
 						<MinusIcon className='stroke-Orange w-7 h-7' />
 					</Button>
 
@@ -104,7 +104,7 @@ export const ProductDetails = ({ id }: { id: number }) => {
 							setShowMsg(false);
 						}}
 						rounded={'full'}
-						className='p-2 focus-visible:outline-dashed active:translate-y-px hover:bg-Very_light_grayish_blue'>
+						className='p-2 focus-visible:outline-dotted active:translate-y-px hover:bg-Very_light_grayish_blue'>
 						<PlusIcon className='stroke-Orange w-7 h-7' />
 					</Button>
 

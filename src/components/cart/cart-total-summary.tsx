@@ -61,6 +61,7 @@ export const CartTotalSummary = () => {
 	return (
 		<div className='flex flex-col gap-8 my-16 text-xl font-normal capitalize lg:text-2xl'>
 			<Accordion
+				initState={false}
 				header='Cart summary'
 				bodyColor='bg-transparent'
 				className='relative shadow-sm'>

@@ -11,6 +11,7 @@ type AccordionProps = {
 	bodyColor?: string;
 	className?: string;
 	children?: ReactNode;
+	initState?: boolean;
 };
 
 export const Accordion: FC<AccordionProps> = ({
@@ -19,9 +20,10 @@ export const Accordion: FC<AccordionProps> = ({
 	header,
 	headerColor,
 	children,
-	className
+	className,
+	initState = true
 }) => {
-	const [expand, setExpand] = useState<boolean>(true);
+	const [expand, setExpand] = useState<boolean>(initState);
 
 	return (
 		<section
@@ -38,7 +40,7 @@ export const Accordion: FC<AccordionProps> = ({
 				<Button
 					aria-expanded={expand}
 					onClick={() => setExpand(!expand)}
-					className='bg-white rounded-full focus-visible:outline-Very_dark_blue focus-visible:outline-dashed'>
+					className='bg-white rounded-full focus-visible:outline-Very_dark_blue focus-visible:outline-dotted'>
 					<ChevronIcon
 						className={cm([
 							'transition-transform duration-300 rotate-90',
