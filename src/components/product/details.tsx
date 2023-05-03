@@ -1,17 +1,18 @@
 'use client';
-
 import { useEffect, useState } from 'react';
-
-import { TCartItem } from '@/types/cart';
 import { useCartStore } from '@/store';
+import { cm } from '@/lib/class-merger';
+import { TCartItem } from '@/types/cart';
 import { product } from '@/data/featured-product';
 
 import { Button } from '../ui/button';
 import { DiscountTag } from '../ui/discount-tag';
-import { MinusIcon, PlusIcon, CartIcon } from '../icons';
+import { MinusIcon, PlusIcon, CartIcon, ChevronIcon } from '../icons';
+import { Accordion } from '../ui/accordion';
 
 export const ProductDetails = ({ id }: { id: number }) => {
 	const [showMsg, setShowMsg] = useState(false);
+	const [expand, setExpand] = useState(true);
 	const cart = useCartStore(s => s.cart);
 	const addCartItem = useCartStore(s => s.addCartItem);
 
@@ -49,14 +50,19 @@ export const ProductDetails = ({ id }: { id: number }) => {
 
 	return (
 		<section className='m-8 mb-40 justify-self-start lg:max-w-3xl lg:m-0'>
-			<div className='grid gap-4 mb-16'>
+			<div className='grid gap-4 mb-8'>
 				<h3 className='text-xl font-bold tracking-wider uppercase text-Orange/80'>
 					sneaker company
 				</h3>
 				<h2 className='mb-4 text-5xl font-bold capitalize text-Very_dark_blue'>
 					{product.title}
 				</h2>
-				<p className='text-[1.6rem] text-Dark_grayish_blue/80'>{product.description}</p>
+
+				<Accordion
+					header='Product description'
+					body={product.description}
+					// headerColor='bg-black'
+				/>
 			</div>
 
 			<div className='grid gap-8'>
@@ -82,8 +88,9 @@ export const ProductDetails = ({ id }: { id: number }) => {
 							setItemQty(pv => (pv > 0 ? --pv : 0));
 							setShowMsg(false);
 						}}
-						className='p-2 rounded-full text-Orange focus-visible:text-Orange active:translate-y-px hover:bg-Very_light_grayish_blue'>
-						<MinusIcon className='w-7 h-7' />
+						rounded={'full'}
+						className='p-2 focus-visible:outline-dashed active:translate-y-px hover:bg-Very_light_grayish_blue'>
+						<MinusIcon className='stroke-Orange w-7 h-7' />
 					</Button>
 
 					<span className='text-2xl font-bold lg:text-2xl'>
@@ -96,8 +103,9 @@ export const ProductDetails = ({ id }: { id: number }) => {
 							setItemQty(pv => (pv === 10 ? 10 : ++pv));
 							setShowMsg(false);
 						}}
-						className='p-2 rounded-full text-Orange focus-visible:text-Orange active:translate-y-px hover:bg-Very_light_grayish_blue'>
-						<PlusIcon className='w-7 h-7' />
+						rounded={'full'}
+						className='p-2 focus-visible:outline-dashed active:translate-y-px hover:bg-Very_light_grayish_blue'>
+						<PlusIcon className='stroke-Orange w-7 h-7' />
 					</Button>
 
 					<p

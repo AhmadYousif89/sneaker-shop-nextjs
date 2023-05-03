@@ -1,6 +1,5 @@
 'use client';
 import './globals.css';
-import { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { Kumbh_Sans } from 'next/font/google';
 import { usePathname } from 'next/navigation';

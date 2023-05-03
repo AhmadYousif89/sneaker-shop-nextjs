@@ -1,5 +1,3 @@
-'use client';
-
 import Image from 'next/image';
 import { useAuthStore, useCartStore, useUIStore } from '@/store';
 import profileImg from '../../../public/assets/images/avatar.png';
@@ -9,13 +7,12 @@ import { CartIcon, UserIcon } from '../icons';
 import { SideNavigation } from './side-nav';
 import { TopNavigation } from './top-nav';
 import { Button } from '../ui/button';
-import { useHydratedStore } from '@/hooks/use-hydrated-store';
+import { cm } from '@/lib/class-merger';
 
 export const Header = ({ children }: { children: React.ReactNode }) => {
 	const user = useAuthStore(s => s.user);
 	const cart = useCartStore(s => s.cart);
-	// const user = useHydratedStore(useAuthStore, s => s.user);
-	// const cart = useHydratedStore(useCartStore, s => s.cart);
+	const userModalState = useUIStore(s => s.userModal);
 	const getTotalQty = useCartStore(s => s.getTotalQty);
 	const setCartStatus = useUIStore(s => s.setCartStatus);
 	const setProfileStatus = useUIStore(s => s.setProfileStatus);
@@ -48,10 +45,13 @@ export const Header = ({ children }: { children: React.ReactNode }) => {
 				</div>
 
 				<Button
-					onClick={() => setProfileStatus(pv => !pv)}
-					title='profile options'
 					rounded={'full'}
-					className='w-14 h-14 hover:ring-2 hover:ring-Orange'>
+					title='profile options'
+					onClick={() => setProfileStatus(pv => !pv)}
+					className={cm([
+						'w-14 h-14 hover:ring-2 hover:ring-Orange focus-visible:outline-Orange',
+						userModalState && 'ring-2 ring-Orange'
+					])}>
 					{user ? (
 						<Image alt='user profile icon' src={profileImg} aria-hidden />
 					) : (

@@ -1,14 +1,13 @@
 'use client';
 import Image from 'next/image';
-
-import { Button } from '../ui/button';
 import { Input } from '../ui/input';
+import ToolTip from '../ui/tooltip';
+import { Button } from '../ui/button';
 import { AuthWrapper } from './auth-wrapper';
 import { EmailIcon, LockIcon, SpinnerIcon } from '../icons';
 import { InputName, useFormInputs } from '@/hooks/use-form-inputs';
 
 import googleIcon from '../../../public/assets/icons/google.png';
-import ToolTip from '../ui/tooltip';
 
 export const Login = () => {
 	const { inputForm, handleInputChange, validateForm } = useFormInputs([

@@ -1,5 +1,4 @@
 'use client';
-
 import Image from 'next/image';
 import { Ref, useCallback, useEffect, useRef } from 'react';
 import { useProductStore, useUIStore } from '@/store';
@@ -7,7 +6,7 @@ import { useCarousel } from '@/hooks/use-carousel';
 import { product } from '@/data/featured-product';
 
 import { Button } from '../ui/button';
-import { CloseIcon, NavigateBackIcon } from '../icons';
+import { CloseIcon, ChevronIcon } from '../icons';
 import { SkeletonCarousel } from '../skeletons/skeleton-carousel';
 
 export const ProductCarousel = ({ inLightbox = false }) => {
@@ -111,7 +110,7 @@ export const ProductCarousel = ({ inLightbox = false }) => {
 							className={`lg:hidden group-hover:block group-focus-within:block z-30 absolute top-1/2 left-0 translate-x-1/2 -translate-y-1/2 ${
 								inLightbox ? 'lg:block -translate-x-1/2' : ''
 							}`}>
-							<NavigateBackIcon className='hover:fill-Orange' />
+							<ChevronIcon className='hover:fill-Orange' />
 						</Button>
 
 						<Button
@@ -122,7 +121,7 @@ export const ProductCarousel = ({ inLightbox = false }) => {
 							className={`lg:hidden group-hover:block group-focus-within:block z-30 absolute top-1/2 right-0 -translate-x-1/2 -translate-y-1/2 rotate-180 ${
 								inLightbox ? 'lg:block translate-x-1/2' : ''
 							}`}>
-							<NavigateBackIcon className='hover:fill-Orange' />
+							<ChevronIcon className='hover:fill-Orange' />
 						</Button>
 					</div>
 

@@ -1,4 +1,4 @@
-export const NavigateBackIcon = ({ className = '' }) => {
+export const ChevronIcon = ({ className = '' }) => {
 	return (
 		<svg
 			width='30'

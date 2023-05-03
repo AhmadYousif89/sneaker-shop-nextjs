@@ -1,5 +1,4 @@
 'use client';
-
 import Image from 'next/image';
 import { useUserStore } from '@/store';
 import { THistoryItem } from '@/types/history';

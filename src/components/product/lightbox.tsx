@@ -1,7 +1,5 @@
 'use client';
-
 import { useUIStore } from '@/store';
-
 import { Overlay } from '../ui/overlay';
 import { ProductCarousel } from './carousel';
 

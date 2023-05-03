@@ -1,4 +1,3 @@
-// 'use client';
 import { useState } from 'react';
 import { useUserStore, useUIStore, useAuthStore } from '@/store';
 import { useEventListener } from '@/hooks/use-event-listener';
@@ -59,7 +58,12 @@ export const UserModal = () => {
 				))}
 			</div>
 
-			<div className='grid text-2xl text-Grayish_blue p-8 min-h-[20rem] max-h-[42rem] overflow-y-auto'>
+			<div
+				className={cm([
+					'grid text-2xl text-Grayish_blue p-8 min-h-[20rem] max-h-[42rem] overflow-y-auto',
+					// scrollbar styles
+					'sb-track-gray sb-thumb-orange sb-w-2'
+				])}>
 				{selectedTab === 'favorites' && <FavoriteList />}
 				{selectedTab === 'history' && <HistoryList />}
 				{selectedTab === 'orders' && <OrderList />}

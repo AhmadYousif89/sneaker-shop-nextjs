@@ -1,4 +1,3 @@
-// 'use client';
 import { FC, HTMLAttributes, useState } from 'react';
 import { useEventListener } from '@/hooks/use-event-listener';
 import { cm } from '@/lib/class-merger';
@@ -37,7 +36,7 @@ const ToolTip: FC<ToolTipProps> = ({
 			className={cm([
 				'relative z-30 cursor-pointer after:bg-Very_dark_blue',
 				// position & dimensions
-				'after:absolute after:-top-3 after:px-6 after:py-3 after:rounded-md after:w-max',
+				'after:absolute after:-top-2 after:px-6 after:py-3 after:rounded-md after:w-max',
 				renderLeft && 'after:left-0',
 				renderRight && 'after:right-0',
 				renderCenter && 'after:left-1/2 after:-translate-x-1/2',
@@ -46,9 +45,9 @@ const ToolTip: FC<ToolTipProps> = ({
 				// animation
 				'after:opacity-0 after:invisible after:transition-[transform,opacity] after:duration-300',
 				renderOnHover &&
-					'after:hover:-translate-y-9 after:hover:opacity-100 after:hover:visible',
+					'after:hover:-translate-y-11 after:hover:opacity-100 after:hover:visible',
 				renderOnClick &&
-					'after:aria-pressed:-translate-y-9 after:aria-pressed:opacity-100 after:aria-pressed:visible',
+					'after:aria-pressed:-translate-y-11 after:aria-pressed:opacity-100 after:aria-pressed:visible',
 				className
 			])}
 			{...props}>

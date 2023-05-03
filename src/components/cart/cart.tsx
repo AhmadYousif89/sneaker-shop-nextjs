@@ -1,5 +1,4 @@
 'use client';
-
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { MouseEventHandler, useEffect, useState } from 'react';
@@ -10,7 +9,7 @@ import { CartTotalSummary } from './cart-total-summary';
 import { PromoCodeInput } from './promo-code';
 import { CartPageList } from './cart-page-list';
 import { ActionModal } from '../ui/action-modal';
-import { NavigateBackIcon, DeleteIcon, CopyIcon } from '../icons';
+import { ChevronIcon, DeleteIcon, CopyIcon } from '../icons';
 
 import sideImg from '../../../public/assets/images/chkout.jpg';
 import emptyCartImg from '../../../public/assets/images/cart-empty.png';
@@ -65,7 +64,7 @@ export const Cart = () => {
 						title='previous page'
 						onClick={() => router.back()}
 						className='absolute left-0 flex items-center justify-center w-16 h-16 p-0 -translate-y-1/2 group bg-Light_grayish_blue top-1/2'>
-						<NavigateBackIcon className='group-hover:fill-Orange group-focus-visible:fill-Orange' />
+						<ChevronIcon className='group-hover:fill-Orange group-focus-visible:fill-Orange' />
 					</Button>
 
 					<h2 className='text-4xl font-bold text-center text-Very_dark_blue'>My Cart</h2>
@@ -103,7 +102,7 @@ export const Cart = () => {
 					</div>
 
 					<figure className='hidden lg:block min-h-[50rem]'>
-						<Image src={sideImg} alt='cart side image' loading={'lazy'} />
+						<Image src={sideImg} alt='cart side image' priority />
 						<figcaption className='sr-only'>checkout side image</figcaption>
 					</figure>
 				</div>

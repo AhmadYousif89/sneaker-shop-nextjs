@@ -5,7 +5,7 @@ export * from './favorite';
 export * from './info';
 export * from './menu';
 export * from './minus';
-export * from './navigate-back';
+export * from './chevron';
 export * from './next';
 export * from './plus';
 export * from './previous';

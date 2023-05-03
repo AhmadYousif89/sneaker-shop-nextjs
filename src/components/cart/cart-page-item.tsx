@@ -45,7 +45,7 @@ export const CartPageItem = ({ cartItem }: { cartItem: TCartItem }) => {
 						}
 						decrementCartItem(cartItem.id);
 					}}
-					className='p-2 rounded-full text-Dark_grayish_blue hover:text-Orange focus-visible:text-Orange active:translate-y-px hover:bg-Very_light_grayish_blue'>
+					className='p-3 rounded-full text-Dark_grayish_blue hover:text-Orange focus-visible:text-Orange focus-visible:outline-dotted active:translate-y-px hover:bg-Very_light_grayish_blue'>
 					<MinusIcon />
 				</Button>
 
@@ -54,7 +54,7 @@ export const CartPageItem = ({ cartItem }: { cartItem: TCartItem }) => {
 				<Button
 					title='increment item quantity'
 					onClick={() => incrementCartItem(cartItem.id)}
-					className='p-2 rounded-full text-Dark_grayish_blue hover:text-Orange focus-visible:text-Orange active:translate-y-px hover:bg-Very_light_grayish_blue'>
+					className='p-3 rounded-full text-Dark_grayish_blue hover:text-Orange focus-visible:text-Orange active:translate-y-px focus-visible:outline-dotted hover:bg-Very_light_grayish_blue'>
 					<PlusIcon />
 				</Button>
 			</div>
