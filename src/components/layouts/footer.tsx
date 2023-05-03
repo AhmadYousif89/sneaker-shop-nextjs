@@ -19,7 +19,7 @@ export const Footer = () => {
 			</div>
 
 			<section className='grid grid-cols-3 gap-y-16 justify-items-center'>
-				<nav className='flex flex-col items-center gap-8'>
+				<nav className='flex flex-col items-center gap-4'>
 					<p className='mb-8 text-2xl font-bold capitalize text-Very_dark_blue'>
 						product
 					</p>
@@ -30,7 +30,7 @@ export const Footer = () => {
 					))}
 				</nav>
 
-				<nav className='flex flex-col items-center gap-8'>
+				<nav className='flex flex-col items-center gap-4'>
 					<p className='mb-8 text-2xl font-bold capitalize text-Very_dark_blue'>
 						category
 					</p>
@@ -41,7 +41,7 @@ export const Footer = () => {
 					))}
 				</nav>
 
-				<nav className='flex flex-col items-center gap-8'>
+				<nav className='flex flex-col items-center gap-4'>
 					<p className='mb-8 text-2xl font-bold capitalize text-Very_dark_blue'>
 						company
 					</p>

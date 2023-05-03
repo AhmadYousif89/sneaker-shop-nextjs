@@ -5,8 +5,7 @@ import {
 	forwardRef,
 	ForwardedRef,
 	PointerEventHandler,
-	ButtonHTMLAttributes,
-	AnchorHTMLAttributes
+	ComponentPropsWithRef
 } from 'react';
 import Link from 'next/link';
 import { VariantProps, cva } from 'cva';
@@ -15,16 +14,15 @@ import { Ripple } from './ripple';
 
 export type RippleDimension = { size: number; x: number; y: number };
 
-interface ButtonAttributes extends ButtonHTMLAttributes<HTMLButtonElement> {}
-interface LinkAttributes extends AnchorHTMLAttributes<HTMLAnchorElement> {}
-
 // prettier-ignore
-type ButtonProps = {
-  href?: string;
-  hasRipple?: boolean;
-  rippleColor?:string;
-	exact?:boolean
-} & ButtonAttributes & LinkAttributes & VariantProps<typeof buttonClasses>;
+type ButtonProps = ComponentPropsWithRef<'button'> & ComponentPropsWithRef<'a'> & VariantProps<typeof buttonClasses>;
+
+type Props = {
+	href?: string;
+	hasRipple?: boolean;
+	rippleColor?: string;
+	exact?: boolean;
+} & ButtonProps;
 
 const buttonClasses = cva(
 	[
@@ -136,7 +134,7 @@ const buttonClasses = cva(
 	}
 );
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+export const Button = forwardRef<HTMLButtonElement, Props>(
 	(
 		{
 			hasRipple,

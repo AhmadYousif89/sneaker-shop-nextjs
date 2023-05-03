@@ -76,14 +76,15 @@ export const CartTotalSummary = () => {
 					<div className='flex items-center justify-between text-Orange'>
 						<span>promo code</span>
 						<div className={`group normal-case flex items-center gap-4`}>
-							{promoCode !== '' && ( // has promo code
-								<Button
-									title='remove promo code'
-									className='rounded-full lg:p-1 bg-Pale_orange'
-									onClick={() => state.setCartDiscount('')}>
-									<CloseIcon className='scale-[.6] fill-Dark_grayish_blue hover:fill-Orange lg:scale-75' />
-								</Button>
-							)}
+							<Button
+								title='remove promo code'
+								className={cm([
+									!promoCode ? 'hidden' : 'block',
+									'rounded-full lg:p-1 bg-Pale_orange'
+								])}
+								onClick={() => state.setCartDiscount('')}>
+								<CloseIcon className='scale-[.6] fill-Dark_grayish_blue hover:fill-Orange lg:scale-75' />
+							</Button>
 							<span>{promoCode ? promoCode : 'no code'}</span>
 						</div>
 					</div>
@@ -115,7 +116,7 @@ export const CartTotalSummary = () => {
 					className={cm([
 						'absolute -bottom-3 -z-10 left-0 text-xl px-8 py-2 text-Dark_grayish_blue normal-case',
 						'transition-[transform,opacity] duration-200 -translate-y-5 opacity-100 visible',
-						promoCode === '' && '-translate-y-12 opacity-0 invisible'
+						!promoCode && '-translate-y-12 opacity-0 invisible'
 					])}>
 					applied
 					<b className='text-2xl tracking-wide text-Orange'>
@@ -126,19 +127,24 @@ export const CartTotalSummary = () => {
 			</Accordion>
 
 			{/* TOTAL */}
-			<div className='flex items-center justify-between gap-4 text-2xl font-bold lg:text-3xl'>
+			<div className='relative flex items-center justify-between overflow-hidden text-2xl font-bold lg:text-3xl'>
 				<span className='uppercase'>total bag</span>
 				<span
-					className={`ml-auto ${
-						promoCode === '' ? 'text-Very_dark_blue' : 'line-through text-Grayish_blue'
-					}`}>
-					$ {totalCart.toFixed(2)}
+					className={cm([
+						'text-Very_dark_blue',
+						'transition-all duration-500 ease-in-out',
+						promoCode && 'line-through text-Grayish_blue -translate-x-36'
+					])}>
+					${totalCart.toFixed(2)}
 				</span>
-				{promoCode !== '' && ( // has promo code
-					<span>
-						{promoCode === 'ILoveYou_50' ? `$${(totalCart / 2).toFixed(2)}` : `$0.00`}
-					</span>
-				)}
+				<span
+					className={cm([
+						'absolute right-0 opacity-0 invisible',
+						'transition-all duration-500 translate-x-32 ease-in-out',
+						promoCode && 'translate-x-0 opacity-100 visible'
+					])}>
+					{promoCode === 'ILoveYou_50' ? `$${(totalCart / 2).toFixed(2)}` : `$0.00`}
+				</span>
 			</div>
 
 			<Button

@@ -1,11 +1,9 @@
-import { forwardRef, InputHTMLAttributes } from 'react';
+import { ComponentPropsWithRef, forwardRef } from 'react';
 import { VariantProps, cva } from 'cva';
 import { cm } from '@/lib/class-merger';
 
-interface InputAttributes
-	extends InputHTMLAttributes<HTMLInputElement>,
-		VariantProps<typeof inputClasses> {}
-type AuthInputProps = { wrapperStyle?: string } & InputAttributes;
+type InputProps = ComponentPropsWithRef<'input'> & VariantProps<typeof inputClasses>;
+type Props = { wrapperStyle?: string } & InputProps;
 
 const inputClasses = cva(
 	'rounded-lg text-xl lg:text-2xl outline-none placeholder:text-xl',
@@ -56,7 +54,7 @@ const inputClasses = cva(
 	}
 );
 
-export const Input = forwardRef<HTMLInputElement, AuthInputProps>(
+export const Input = forwardRef<HTMLInputElement, Props>(
 	({ children, className = '', wrapperStyle = '', variant, rounded, ...props }, ref) => {
 		return (
 			<label htmlFor={props.id} className={wrapperStyle}>

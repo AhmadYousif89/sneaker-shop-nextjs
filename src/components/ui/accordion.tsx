@@ -1,4 +1,4 @@
-import { FC, ReactNode, useState } from 'react';
+import { ComponentProps, FC, useState } from 'react';
 import { cm } from '@/lib/class-merger';
 import { ChevronIcon } from '../icons';
 import { Button } from './button';
@@ -9,19 +9,16 @@ type AccordionProps = {
 	icon?: JSX.Element;
 	headerColor?: string;
 	bodyColor?: string;
-	className?: string;
-	children?: ReactNode;
 	initState?: boolean;
-};
+} & ComponentProps<'section'>;
 
 export const Accordion: FC<AccordionProps> = ({
 	body,
 	bodyColor,
 	header,
 	headerColor,
-	children,
-	className,
-	initState = true
+	initState = true,
+	...props
 }) => {
 	const [expand, setExpand] = useState<boolean>(initState);
 
@@ -29,7 +26,7 @@ export const Accordion: FC<AccordionProps> = ({
 		<section
 			className={cm([
 				'my-4 overflow-hidden text-white lg:my-8 rounded-2xl shadow-md',
-				className
+				props.className
 			])}>
 			<div
 				className={cm([
@@ -53,18 +50,15 @@ export const Accordion: FC<AccordionProps> = ({
 
 			<div
 				className={cm([
-					'relative grid grid-rows-[0fr] bg-Dark_grayish_blue transition-[grid-template-rows] duration-500',
+					'relative grid grid-rows-[0fr] bg-Dark_grayish_blue',
+					'transition-[grid-template-rows] duration-500',
 					expand && 'grid-rows-[1fr]',
 					bodyColor
 				])}>
-				<div className='absolute inset-0 border-t border-Very_light_grayish_blue'> </div>
-				<div className='overflow-hidden'>
-					{children ? (
-						children
-					) : (
-						<div className='px-8 py-12 text-2xl lg:text-[1.6rem]'>{body}</div>
-					)}
+				<div className='absolute inset-0 border-t border-Very_light_grayish_blue'>
+					&nbsp;
 				</div>
+				<div className='overflow-hidden'>{props.children}</div>
 			</div>
 		</section>
 	);

@@ -58,11 +58,11 @@ export const ProductDetails = ({ id }: { id: number }) => {
 					{product.title}
 				</h2>
 
-				<Accordion
-					header='Product description'
-					body={product.description}
-					// headerColor='bg-black'
-				/>
+				<Accordion header='Product description'>
+					<div className='px-8 py-12 text-2xl lg:text-[1.6rem]'>
+						{product.description}
+					</div>
+				</Accordion>
 			</div>
 
 			<div className='grid gap-8'>
