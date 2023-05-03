@@ -32,11 +32,11 @@ const inputClasses = cva(
 					'focus-visible:outline-none focus-visible:outline-2 focus-visible:outline-Very_light_grayish_blue focus-visible:outline-offset-1'
 				],
 				promo: [
-					'w-full px-8 py-4',
+					'w-full px-8 py-5',
 					'bg-Very_light_grayish_blue text-Dark_grayish_blue',
 					'focus-visible:outline focus-visible:outline-offset-1 focus-visible:outline-2 focus-visible:outline-Orange',
 					'placeholder:text-Grayish_blue',
-					'lg:py-5 lg:placeholder:text-2xl'
+					'lg:placeholder:text-2xl'
 				],
 				search_favorite: [
 					'px-6 py-2 ml-4 w-full',

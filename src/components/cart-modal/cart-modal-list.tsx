@@ -18,7 +18,7 @@ export const CartList = () => {
 				href='/cart'
 				fullWidth
 				variant='secondary_orange'
-				className='mb-4'
+				className='mb-4 text-2xl'
 				onClick={() => setCartStatus(false)}>
 				<span>checkout</span>
 			</Button>

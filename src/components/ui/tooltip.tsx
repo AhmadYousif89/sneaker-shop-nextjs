@@ -1,11 +1,11 @@
-import { FC, HTMLAttributes, useState } from 'react';
+import { FC, HTMLAttributes, useRef, useState } from 'react';
 import { useEventListener } from '@/hooks/use-event-listener';
 import { cm } from '@/lib/class-merger';
 
 type ToolTipProps = {
 	tip: string | JSX.Element;
+	shouldRender?: boolean;
 	renderOnHover?: boolean;
-	renderOnClick?: boolean;
 	renderLeft?: boolean;
 	renderRight?: boolean;
 	renderCenter?: boolean;
@@ -19,20 +19,26 @@ const ToolTip: FC<ToolTipProps> = ({
 	renderLeft = true,
 	renderRight,
 	renderCenter,
-	renderOnClick = true,
+	shouldRender = true,
 	...props
 }) => {
-	const [showPolicyTip, setShowPolicyTip] = useState(false);
+	const timeoutRef = useRef<NodeJS.Timeout>();
+	const [showTip, setShowTip] = useState(false);
 	const { ref: policyRef } = useEventListener({
-		insideHandler: () => setShowPolicyTip(!showPolicyTip),
-		outsideHandler: () => setShowPolicyTip(false)
+		insideHandler: () => {
+			setShowTip(pv => !pv);
+			clearTimeout(timeoutRef.current);
+			timeoutRef.current = setTimeout(() => {
+				setShowTip(false);
+			}, 3000);
+		},
+		outsideHandler: () => setShowTip(false)
 	});
 
 	return (
 		<span
 			ref={policyRef}
 			data-tip={tip}
-			aria-pressed={showPolicyTip}
 			className={cm([
 				'relative z-30 cursor-pointer after:bg-Very_dark_blue',
 				// position & dimensions
@@ -44,10 +50,11 @@ const ToolTip: FC<ToolTipProps> = ({
 				'after:text-xl after:font-semibold after:tracking-wide after:normal-case after:text-Very_light_grayish_blue after:content-[attr(data-tip)]',
 				// animation
 				'after:opacity-0 after:invisible after:transition-[transform,opacity] after:duration-300',
+				showTip &&
+					shouldRender &&
+					'after:-translate-y-11 after:opacity-100 after:visible',
 				renderOnHover &&
 					'after:hover:-translate-y-11 after:hover:opacity-100 after:hover:visible',
-				renderOnClick &&
-					'after:aria-pressed:-translate-y-11 after:aria-pressed:opacity-100 after:aria-pressed:visible',
 				className
 			])}
 			{...props}>

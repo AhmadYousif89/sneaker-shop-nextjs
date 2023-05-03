@@ -27,10 +27,16 @@ export const Cart = () => {
 		if (showWarning) setModal(true);
 	}, [showWarning]);
 
-	const handleCopy: MouseEventHandler = e => {
+	const handleCopy: MouseEventHandler = async e => {
 		e.preventDefault();
 		const textToCopy = 'ILoveYou_50';
-		navigator.clipboard.writeText(textToCopy);
+		if ('clipboard' in navigator) {
+			navigator.clipboard.writeText(textToCopy);
+		} else {
+			alert(
+				'Sorry, but the copy to clipboard feature is not supported with your browser! 😔'
+			);
+		}
 	};
 
 	if (cart.length === 0)
