@@ -1,14 +1,14 @@
-import NextAuth, { AuthOptions } from 'next-auth';
+import NextAuth, { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 import { prisma } from '@/lib/db';
 import { compare } from 'bcrypt';
 
-export const authOptions: AuthOptions = {
+const authOptions: NextAuthOptions = {
 	session: { strategy: 'jwt', maxAge: 60 * 60 * 24 * 7 },
 	providers: [
 		CredentialsProvider({
-			credentials: {},
+			credentials: { name: {}, email: {}, password: {} },
 			authorize: async credentials => {
 				const { email, password } = credentials as RequestBody;
 
