@@ -1,46 +1,89 @@
-import { FormEvent, ReactNode, useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAuthStore } from '@/store';
+import { signIn, useSession } from 'next-auth/react';
+import { FormEvent, ReactNode, useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '../ui/button';
+import { cm } from '@/lib/class-merger';
+
+export type SubmitHandler = (
+	e: FormEvent,
+	userInputs: RequestBody,
+	validateForm: () => boolean,
+	pageType: 'login' | 'register'
+) => void;
 
 type AuthWrapperProps = {
 	className?: string;
 	children: (
-		handleSubmit: (e: FormEvent, userInputs: any, validateForm: () => boolean) => void,
-		isSubmitting: boolean
+		handleSubmit: SubmitHandler,
+		isSubmitting: boolean,
+		serverErrMsg?: string | null
 	) => ReactNode | ReactNode;
+};
+
+const registerUser = async (userInputs: RequestBody) => {
+	const res = await fetch(`/api/auth/register`, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(userInputs)
+	});
+
+	const data = await res.json();
+	if (!res.ok) throw new Error(res.statusText || 'Something went wrong!');
+	return data;
 };
 
 export const AuthWrapper = ({ children, className = '' }: AuthWrapperProps) => {
 	const router = useRouter();
-	const timeoutId = useRef<NodeJS.Timeout>();
+	const searchParams = useSearchParams();
 	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [serverErrMsg, setServerErrMsg] = useState('');
+	const { status } = useSession();
 
-	const setUserCredentials = useAuthStore(s => s.setUserCredentials);
+	const callbackUrl = searchParams.get('callbackUrl') ?? '/';
 
-	const handleSubmit = (e: FormEvent, userInputs: any, validateForm: () => boolean) => {
+	useEffect(() => {
+		if (status === 'authenticated') router.replace(callbackUrl);
+	}, [status, router, callbackUrl]);
+
+	const handleSubmit: SubmitHandler = async (e, userInputs, validateForm, pageType) => {
 		e.preventDefault();
 
 		setIsSubmitting(true);
-		if (!validateForm()) {
+		const formIsValid = validateForm();
+		if (!formIsValid) {
 			setIsSubmitting(false);
 			return;
 		}
 
-		setUserCredentials?.(userInputs);
-
-		clearTimeout(timeoutId.current);
-		timeoutId.current = setTimeout(() => {
+		try {
+			setServerErrMsg('');
+			if (pageType === 'register') {
+				await registerUser(userInputs);
+			}
+			const result = await signIn('credentials', {
+				redirect: false,
+				callbackUrl,
+				email: userInputs.email,
+				password: userInputs.password
+			}).finally(() => setIsSubmitting(false));
+			if (result?.error) setServerErrMsg(result.error);
+		} catch (error) {
+			if (error instanceof Error) setServerErrMsg(error.message);
+		} finally {
 			setIsSubmitting(false);
-			router.push('/cart');
-		}, 2000);
+		}
 	};
 
 	return (
 		<section
-			className={`${className} grid grid-rows-[15rem,10rem,min-content,10rem] justify-items-center`}>
+			className={cm([
+				'grid grid-rows-[12rem,12rem,auto,10rem] justify-items-center p-8',
+				className
+			])}>
 			<div className='space-y-8 text-center'>
-				<h2 className='text-5xl font-bold capitalize text-Very_dark_blue'>hey there!</h2>
+				<h2 className='text-3xl lg:text-4xl font-bold uppercase text-Very_dark_blue'>
+					hey there!
+				</h2>
 				<p className='text-2xl tracking-wide text-Dark_grayish_blue'>
 					welcome to
 					<Button
@@ -52,7 +95,9 @@ export const AuthWrapper = ({ children, className = '' }: AuthWrapperProps) => {
 				</p>
 			</div>
 
-			{typeof children === 'function' ? children(handleSubmit, isSubmitting) : children}
+			{typeof children === 'function'
+				? children(handleSubmit, isSubmitting, serverErrMsg)
+				: children}
 		</section>
 	);
 };

@@ -6,7 +6,7 @@ import { Card } from '../ui/card';
 
 export const CartModal = () => {
 	const cart = useCartStore(s => s.cart);
-	const cartModalState = useUIStore(s => s.cartModal);
+	const cartModalState = useUIStore(s => s.cartModalStatus);
 	const setCartStatus = useUIStore(s => s.setCartStatus);
 
 	const subtotal = cart.reduce((acc, curItem) => acc + curItem.price * curItem.qty, 0);

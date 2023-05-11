@@ -1,24 +1,24 @@
+'use client';
 import Image from 'next/image';
-import { useRef } from 'react';
 import { useUserStore } from '@/store';
 import { TProduct } from '@/types/product';
+import { cm } from '@/lib/class-merger';
 
 import { Button } from '../ui/button';
 import { FavorIcon } from '../icons/favorite';
 import { DiscountTag } from '../ui/discount-tag';
-import { cm } from '@/lib/class-merger';
+import { useHydratedStore } from '@/hooks/use-hydrated-store';
 
 export const CategoryItem = ({ item }: { item: TProduct }) => {
-	const imageRef = useRef<HTMLImageElement>(null);
 	const favoriteList = useUserStore(s => s.favoriteList);
+	// const favoriteList = useHydratedStore(useUserStore, s => s.favoriteList);
 	const toggleItemFavorite = useUserStore(s => s.toggleItemFavorite);
 
-	const itemImage = item.image.thumb as string;
-
+	const productImage = item.image.thumb as string;
 	const favoredItem = favoriteList.find(i => i.id === item.id);
 	const itemIsFavored = favoredItem ? true : false;
 
-	const handleFavoriteBtn = () => toggleItemFavorite({ ...item });
+	const handleFavoriteBtn = () => toggleItemFavorite(item);
 
 	return (
 		<li
@@ -42,20 +42,22 @@ export const CategoryItem = ({ item }: { item: TProduct }) => {
 					'before:bg-gradient-to-br before:from-Orange/40 before:to-Orange/80',
 					'before:rounded-full before:shadow-md'
 				])}>
-				<Image ref={imageRef} src={itemImage} alt={item.title} loading={'lazy'} />
-				<figcaption className='sr-only'>product image in the category section</figcaption>
+				<Image src={productImage} alt={item.title} loading={'lazy'} />
+				<figcaption className='sr-only'>product image</figcaption>
 			</figure>
 
 			<div className='space-y-4 text-center capitalize'>
 				<h3 className='text-2xl text-Dark_grayish_blue'>{item.title}</h3>
 				<p className='text-xl text-Grayish_blue'>{item.category} sneaker</p>
-				<p className='flex items-center justify-between text-2xl font-bold text-Dark_grayish_blue'>
-					<span className=''>${item.discountedPrice}</span>
+				<div className='flex items-center justify-between'>
+					<span className='text-2xl font-semibold text-Dark_grayish_blue'>
+						${item.discountedPrice}
+					</span>
 					<Button hasRipple onClick={handleFavoriteBtn}>
-						<span className='sr-only'>like this sneaker</span>
+						<span className='sr-only'>add sneaker to favorites</span>
 						<FavorIcon fill={itemIsFavored} />
 					</Button>
-				</p>
+				</div>
 			</div>
 		</li>
 	);

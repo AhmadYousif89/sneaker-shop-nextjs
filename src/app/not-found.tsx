@@ -6,7 +6,7 @@ const NotFoundPage = () => {
 	const router = useRouter();
 
 	return (
-		<section className='flex flex-col items-center justify-center min-h-full gap-20 my-72 text-Dark_grayish_blue'>
+		<section className='flex-1 grid items-center justify-items-center gap-20 my-64 text-Dark_grayish_blue'>
 			<h2 className='text-4xl capitalize'>page not found</h2>
 			<div className='text-9xl'>\(0_o)/</div>
 			<p className='text-5xl'>404</p>

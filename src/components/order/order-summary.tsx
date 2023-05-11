@@ -9,9 +9,9 @@ export const OrderSummary = ({ currentOrder }: { currentOrder: TOrder }) => {
 
 	return (
 		<SectionWrapper className='xl:col-span-2'>
-			<h3 className='text-3xl xl:text-4xl font-bold text-Very_dark_blue/80'>Summary</h3>
+			<h3 className='text-3xl font-bold xl:text-4xl text-Very_dark_blue/80'>Summary</h3>
 
-			<div className='pb-8 border-b-2 border-Light_grayish_blue capitalize text-xl font-bold text-Dark_grayish_blue space-y-2 tracking-wide xl:text-2xl'>
+			<div className='pb-8 space-y-2 text-xl font-bold tracking-wide capitalize border-b-2 border-Light_grayish_blue text-Dark_grayish_blue xl:text-2xl'>
 				<p className='flex items-center justify-between'>
 					<span>subtotal</span>
 					<span>${subtotal.toFixed(2)}</span>
@@ -22,7 +22,7 @@ export const OrderSummary = ({ currentOrder }: { currentOrder: TOrder }) => {
 					<span>${totalDiscount.toFixed(2)}</span>
 				</p>
 
-				<div className='flex items-center justify-between text-Orange normal-case'>
+				<div className='flex items-center justify-between normal-case text-Orange'>
 					<span>Promo discount</span>
 					<p className='text-xl text-Dark_grayish_blue'>
 						{currentOrder.cartDiscount === '' ? (
@@ -30,7 +30,7 @@ export const OrderSummary = ({ currentOrder }: { currentOrder: TOrder }) => {
 						) : (
 							<span>
 								<b className='text-2xl text-Orange'>
-									{currentOrder.cartDiscount === 'full-disc' ? ' 100% ' : ' 50% '}
+									{currentOrder.cartDiscount === 'full_disc' ? ' 100% ' : ' 50% '}
 								</b>
 								discount on total
 							</span>
@@ -46,7 +46,7 @@ export const OrderSummary = ({ currentOrder }: { currentOrder: TOrder }) => {
 				</p>
 			</div>
 
-			<div className='text-2xl flex items-center justify-between gap-4 font-bold xl:text-3xl'>
+			<div className='flex items-center justify-between gap-4 text-2xl font-bold xl:text-3xl'>
 				<span className='uppercase'>total due</span>
 				<span
 					className={`ml-auto ${
@@ -58,7 +58,7 @@ export const OrderSummary = ({ currentOrder }: { currentOrder: TOrder }) => {
 				</span>
 				{currentOrder.cartDiscount !== '' && ( // has promo code
 					<span>
-						{currentOrder.cartDiscount === 'half-disc'
+						{currentOrder.cartDiscount === 'half_disc'
 							? `$ ${(totalDue / 2).toFixed(2)}`
 							: `$0.00`}
 					</span>

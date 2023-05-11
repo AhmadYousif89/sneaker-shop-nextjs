@@ -11,7 +11,7 @@ import { cm } from '@/lib/class-merger';
 export const SideNavigation = () => {
 	const [isSelected, setIsSelected] = useState(0);
 	const pathname = usePathname();
-	const menuIsOpen = useUIStore(s => s.sideMenu);
+	const menuIsOpen = useUIStore(s => s.sideMenuStatus);
 	const setMenuStatus = useUIStore(s => s.setMenuStatus);
 
 	return (

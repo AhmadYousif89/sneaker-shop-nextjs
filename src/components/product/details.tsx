@@ -1,18 +1,16 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useCartStore } from '@/store';
-import { cm } from '@/lib/class-merger';
 import { TCartItem } from '@/types/cart';
 import { product } from '@/data/featured-product';
 
 import { Button } from '../ui/button';
 import { DiscountTag } from '../ui/discount-tag';
-import { MinusIcon, PlusIcon, CartIcon, ChevronIcon } from '../icons';
+import { MinusIcon, PlusIcon, CartIcon } from '../icons';
 import { Accordion } from '../ui/accordion';
 
 export const ProductDetails = ({ id }: { id: number }) => {
 	const [showMsg, setShowMsg] = useState(false);
-	const [expand, setExpand] = useState(true);
 	const cart = useCartStore(s => s.cart);
 	const addCartItem = useCartStore(s => s.addCartItem);
 
@@ -59,9 +57,7 @@ export const ProductDetails = ({ id }: { id: number }) => {
 				</h2>
 
 				<Accordion header='Product description'>
-					<div className='px-8 py-12 text-2xl lg:text-[1.6rem]'>
-						{product.description}
-					</div>
+					<p className='px-8 py-12 text-2xl lg:text-[1.6rem]'>{product.description}</p>
 				</Accordion>
 			</div>
 

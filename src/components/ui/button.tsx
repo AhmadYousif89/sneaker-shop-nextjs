@@ -68,7 +68,7 @@ const buttonClasses = cva(
 					'focus-visible:bg-transparent focus-visible:outline-white focus-visible:text-Orange',
 					'hover:text-Orange'
 				],
-				login_logout: [
+				auth_btns: [
 					'group flex items-center gap-4 px-4 py-3 text-Dark_grayish_blue',
 					'focus-visible:bg-Dark_grayish_blue focus-visible:text-Very_light_grayish_blue focus-visible:outline-Orange',
 					'hover:bg-Dark_grayish_blue hover:text-Very_light_grayish_blue'
@@ -99,6 +99,11 @@ const buttonClasses = cva(
 				variant: 'primary',
 				modifier: 'outline',
 				className: 'p-8 ring-2 focus-visible:outline-offset-4 focus-visible:ring-current'
+			},
+			{
+				variant: 'default',
+				modifier: 'outline',
+				className: 'text-Very_dark_grayish_blue'
 			},
 			{
 				variant: 'secondary_black',

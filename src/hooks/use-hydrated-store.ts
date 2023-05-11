@@ -5,7 +5,7 @@ export const useHydratedStore = <S, T>(
 	callback: (state: S) => T
 ) => {
 	const result = store(callback) as T;
-	const [state, setState] = useState<T>();
+	const [state, setState] = useState<T>(result);
 
 	useEffect(() => {
 		setState(result);

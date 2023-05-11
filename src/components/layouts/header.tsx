@@ -8,13 +8,14 @@ import { SideNavigation } from './side-nav';
 import { TopNavigation } from './top-nav';
 import { Button } from '../ui/button';
 import { cm } from '@/lib/class-merger';
+import { useSession } from 'next-auth/react';
 
 export const Header = ({ children }: { children: React.ReactNode }) => {
-	const user = useAuthStore(s => s.user);
+	const { data: session } = useSession();
 	const cart = useCartStore(s => s.cart);
-	const userModalState = useUIStore(s => s.userModal);
 	const getTotalQty = useCartStore(s => s.getTotalQty);
 	const setCartStatus = useUIStore(s => s.setCartStatus);
+	const userModalStatus = useUIStore(s => s.userModalStatus);
 	const setProfileStatus = useUIStore(s => s.setProfileStatus);
 
 	let totalQty: string | number = getTotalQty() ?? 0;
@@ -35,7 +36,7 @@ export const Header = ({ children }: { children: React.ReactNode }) => {
 			<div className='flex items-center gap-8 lg:gap-16'>
 				<div className='relative flex'>
 					<Button onClick={() => setCartStatus(pv => !pv)} title='show cart' className=''>
-						{cart && cart.length > 0 && (
+						{cart.length > 0 && (
 							<span className='absolute px-3 text-xl font-bold text-white -top-3 left-3 bg-Orange rounded-3xl'>
 								{totalQty}
 							</span>
@@ -50,9 +51,9 @@ export const Header = ({ children }: { children: React.ReactNode }) => {
 					onClick={() => setProfileStatus(pv => !pv)}
 					className={cm([
 						'w-14 h-14 hover:ring-2 hover:ring-Orange focus-visible:outline-Orange',
-						userModalState && 'ring-2 ring-Orange'
+						userModalStatus && 'ring-2 ring-Orange'
 					])}>
-					{user ? (
+					{session?.user.email ? (
 						<Image alt='user profile icon' src={profileImg} aria-hidden />
 					) : (
 						<UserIcon className='object-cover w-full h-full fill-Dark_grayish_blue' />

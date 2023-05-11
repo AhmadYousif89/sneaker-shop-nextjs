@@ -1,27 +1,29 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-
+import { PromoCodes, useCartStore, useUserStore } from '@/store';
 import { TOrder } from '@/types/order';
-import { PromoCodes, useAuthStore, useCartStore, useUserStore } from '@/store';
-import { CloseIcon, InfoIcon, SpinnerIcon } from '../icons';
-import { Button } from '../ui/button';
-import ToolTip from '../ui/tooltip';
-import { Accordion } from '../ui/accordion';
 import { cm } from '@/lib/class-merger';
+
+import ToolTip from '../ui/tooltip';
+import { Button } from '../ui/button';
+import { Accordion } from '../ui/accordion';
+import { CloseIcon, InfoIcon, SpinnerIcon } from '../icons';
+import { signIn, useSession } from 'next-auth/react';
+import { wait } from '@/lib/wait';
 
 export const CartTotalSummary = () => {
 	const router = useRouter();
-	const timeoutRef = useRef<NodeJS.Timeout>();
-	const [isChecking, setIsChecking] = useState(false);
+	const { data: session } = useSession();
+	const [isExpanded, setIsExpanded] = useState(false);
+	const [isProcessing, setIsProcessing] = useState(false);
 
 	const state = useCartStore(s => s);
-	const user = useAuthStore(s => s.user);
 	const addOrder = useUserStore(s => s.addOrder);
 
 	const promoCode: PromoCodes =
-		state.cartDiscount === 'full-disc'
+		state.cartDiscount === 'full_disc'
 			? 'ImBroke_100'
-			: state.cartDiscount === 'half-disc'
+			: state.cartDiscount === 'half_disc'
 			? 'ILoveYou_50'
 			: '';
 
@@ -31,99 +33,103 @@ export const CartTotalSummary = () => {
 	const totalCart = subtotal - totalDiscount + deliveryFees;
 
 	const handleCheckout = () => {
-		setIsChecking(true);
-		clearTimeout(timeoutRef.current);
-		timeoutRef.current = setTimeout(() => {
-			if (!user) {
-				router.push('/auth/login');
-				return;
-			}
+		setIsProcessing(true);
 
-			const newOrder: TOrder = {
-				id: Math.random().toString(36).substring(6),
-				cart: state.cart,
-				cartDiscount: state.cartDiscount,
-				subtotal,
-				totalDiscount,
-				deliveryFees,
-				totalDue: totalCart,
-				date: new Date().toLocaleString().replace(',', ' at ')
-			};
+		if (!session?.user.email) {
+			signIn().then(() => setIsProcessing(false));
+			return;
+		}
 
-			addOrder(newOrder);
+		const newOrder: TOrder = {
+			id: Math.random().toString(36).substring(6),
+			cart: state.cart,
+			cartDiscount: state.cartDiscount,
+			subtotal,
+			totalDiscount,
+			deliveryFees,
+			totalDue: totalCart,
+			date: new Date().toLocaleString().replace(',', ' at ')
+		};
+
+		addOrder(newOrder);
+		wait(2000).then(() => {
+			setIsProcessing(false);
 			state.setCartDiscount('');
-			setIsChecking(false);
-			router.push('/checkout/success');
 			state.clearCart();
-		}, 2000);
+			router.push('/checkout/success');
+		});
 	};
 
 	return (
-		<div className='flex flex-col gap-8 my-16 text-xl font-normal capitalize lg:text-2xl'>
+		<div className='flex flex-col gap-8 my-16 text-xl capitalize lg:text-2xl'>
 			<Accordion
 				initState={false}
 				header='Cart summary'
-				bodyColor='bg-transparent'
-				className='relative shadow-sm'>
-				<div className='relative flex flex-col gap-4 p-8 pb-16'>
-					{/* SUBTOTAL */}
-					<p className='flex items-center justify-between text-Dark_grayish_blue'>
-						<span>subtotal</span>
-						<span>${subtotal.toFixed(2)}</span>
-					</p>
+				setState={setIsExpanded}
+				bodyStyle='bg-transparent shadow-sm'>
+				{/* Wrapper */}
+				<div className='relative p-8'>
+					<div className='flex flex-col gap-4 mb-8'>
+						{/* SUBTOTAL */}
+						<p className='flex items-center justify-between text-Dark_grayish_blue'>
+							<span>subtotal</span>
+							<span>${subtotal.toFixed(2)}</span>
+						</p>
 
-					{/* PROMO */}
-					<div className='flex items-center justify-between text-Orange'>
-						<span>promo code</span>
-						<div className={`group normal-case flex items-center gap-4`}>
-							<Button
-								title='remove promo code'
-								className={cm([
-									!promoCode ? 'hidden' : 'block',
-									'rounded-full lg:p-1 bg-Pale_orange'
-								])}
-								onClick={() => state.setCartDiscount('')}>
-								<CloseIcon className='scale-[.6] fill-Dark_grayish_blue hover:fill-Orange lg:scale-75' />
-							</Button>
-							<span>{promoCode ? promoCode : 'no code'}</span>
+						{/* PROMO */}
+						<div className='flex items-center justify-between text-Orange'>
+							<span>promo code</span>
+							<div className={`group normal-case flex items-center gap-4`}>
+								<Button
+									tabIndex={isExpanded ? 0 : -1}
+									title='remove promo code'
+									className={cm([
+										!promoCode ? 'hidden' : 'block',
+										'rounded-full lg:p-1 bg-Pale_orange',
+										'focus-visible:outline-dotted'
+									])}
+									onClick={() => state.setCartDiscount('')}>
+									<CloseIcon className='scale-[.6] fill-Dark_grayish_blue hover:fill-Orange lg:scale-75' />
+								</Button>
+								<span>{promoCode ? promoCode : 'no code'}</span>
+							</div>
+						</div>
+
+						{/* DISCOUNT */}
+						<div className='flex items-center justify-between text-green-400'>
+							<span>you just saved</span>
+							<span>${totalDiscount.toFixed(2)}</span>
+						</div>
+
+						{/* DELIVERY */}
+						<div className='flex items-center justify-between text-indigo-400'>
+							<ToolTip
+								renderOnHover
+								className='flex items-center gap-2'
+								tip={`Eligible free shipping on purchases over $${state.shippingLimit}`}>
+								delivery fee
+								<InfoIcon className='fill-current' />
+							</ToolTip>
+
+							<span className='normal-case'>
+								{deliveryFees ? `$${deliveryFees.toFixed(2)}` : 'free shipping'}
+							</span>
 						</div>
 					</div>
-
-					{/* DISCOUNT */}
-					<div className='flex items-center justify-between text-green-400'>
-						<span>you just saved</span>
-						<span>${totalDiscount.toFixed(2)}</span>
-					</div>
-
-					{/* DELIVERY */}
-					<div className='flex items-center justify-between text-indigo-400'>
-						<ToolTip
-							renderOnHover
-							className='flex items-center gap-2'
-							tip={`Eligible free shipping on purchases over $${state.shippingLimit}`}>
-							delivery fee
-							<InfoIcon className='fill-current' />
-						</ToolTip>
-
-						<span className='normal-case'>
-							{deliveryFees ? `$${deliveryFees.toFixed(2)}` : 'free shipping'}
-						</span>
-					</div>
+					{/* Promo Message */}
+					<span
+						className={cm([
+							'absolute -bottom-3 left-0 text-xl px-8 py-2 text-Dark_grayish_blue normal-case',
+							'transition-[transform,opacity] duration-200 -translate-y-5 opacity-100 visible',
+							!promoCode && '-translate-y-12 opacity-0 invisible'
+						])}>
+						applied
+						<b className='text-2xl tracking-wide text-Orange'>
+							{state.cartDiscount === 'full_disc' ? ' 100% ' : ' 50% '}
+						</b>
+						discount on total
+					</span>
 				</div>
-
-				{/* Promo Message */}
-				<span
-					className={cm([
-						'absolute -bottom-3 -z-10 left-0 text-xl px-8 py-2 text-Dark_grayish_blue normal-case',
-						'transition-[transform,opacity] duration-200 -translate-y-5 opacity-100 visible',
-						!promoCode && '-translate-y-12 opacity-0 invisible'
-					])}>
-					applied
-					<b className='text-2xl tracking-wide text-Orange'>
-						{state.cartDiscount === 'full-disc' ? ' 100% ' : ' 50% '}
-					</b>
-					discount on total
-				</span>
 			</Accordion>
 
 			{/* TOTAL */}
@@ -153,7 +159,7 @@ export const CartTotalSummary = () => {
 				onClick={handleCheckout}
 				className='py-6 mt-8 text-2xl lg:self-center lg:w-1/2'>
 				<span>Place your order</span>
-				{isChecking && (
+				{isProcessing && (
 					<SpinnerIcon className='absolute right-0 -translate-x-10 -translate-y-1/2 top-1/2' />
 				)}
 			</Button>

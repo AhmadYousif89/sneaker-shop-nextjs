@@ -18,5 +18,4 @@ type TProduct = {
 	discountedPrice: number;
 	discountPercentage: number;
 	category: TProductCategory;
-	inStock: boolean;
 };

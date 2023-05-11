@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { TCartItem } from '@/types/cart';
 import { cartItems } from '../data/cart-items';
 
-export type CartDiscount = 'full-disc' | 'half-disc' | '';
+export type CartDiscount = 'full_disc' | 'half_disc' | '';
 export type PromoCodes = 'ImBroke_100' | 'ILoveYou_50' | '';
 type CartState = {
 	cart: TCartItem[];
@@ -70,8 +70,8 @@ export const useCartStore = create<InitCartStore>((set, get) => ({
 		}
 	},
 	setCartDiscount: code => {
-		if (code === 'ImBroke_100') set({ cartDiscount: 'full-disc' });
-		if (code === 'ILoveYou_50') set({ cartDiscount: 'half-disc' });
+		if (code === 'ImBroke_100') set({ cartDiscount: 'full_disc' });
+		if (code === 'ILoveYou_50') set({ cartDiscount: 'half_disc' });
 		if (code === '') set({ cartDiscount: '' });
 	},
 	setCartWarning: status => set({ showWarning: status }),
@@ -99,8 +99,8 @@ export const useCartStore = create<InitCartStore>((set, get) => ({
 		let deliveryFees = 0;
 
 		if (hasDeliveryFees) deliveryFees = 50;
-		if (hasDeliveryFees && get().cartDiscount === 'half-disc') deliveryFees = 25;
-		if (!hasDeliveryFees || get().cartDiscount === 'full-disc') deliveryFees = 0;
+		if (hasDeliveryFees && get().cartDiscount === 'half_disc') deliveryFees = 25;
+		if (!hasDeliveryFees || get().cartDiscount === 'full_disc') deliveryFees = 0;
 
 		return deliveryFees;
 	},

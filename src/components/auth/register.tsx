@@ -1,13 +1,12 @@
 'use client';
-import Image from 'next/image';
 import { Input } from '../ui/input';
-import ToolTip from '../ui/tooltip';
 import { Button } from '../ui/button';
 import { AuthWrapper } from './auth-wrapper';
 import { EmailIcon, LockIcon, SpinnerIcon, UserIcon } from '../icons';
 import { useFormInputs, InputName } from '@/hooks/use-form-inputs';
-
-import googleIcon from '../../../public/assets/icons/google.png';
+import { GoogleButton } from './google-btn';
+import { SwitchForm } from './switch-form';
+import { cm } from '@/lib/class-merger';
 
 export const Register = () => {
 	const { inputForm, handleInputChange, validateForm } = useFormInputs([
@@ -63,7 +62,7 @@ export const Register = () => {
 	const emailHasError = !emailIsValid && emailErrMsg;
 	const passwordHasError = !passwordIsValid && passwordErrMsg;
 
-	const userInputs = {
+	const userInputs: RequestBody = {
 		name: enteredName,
 		email: enteredEmail,
 		password: enteredPassword
@@ -71,7 +70,7 @@ export const Register = () => {
 
 	return (
 		<AuthWrapper>
-			{(handleSubmit: any, isSubmitting: boolean) => (
+			{(handleSubmit, isSubmitting, serverErrMsg) => (
 				<>
 					<div className='space-y-4 text-center text-Dark_grayish_blue'>
 						<h3 className='text-4xl font-bold capitalize'>create new account</h3>
@@ -81,8 +80,8 @@ export const Register = () => {
 					</div>
 
 					<form
-						onSubmit={e => handleSubmit(e, userInputs, validateForm)}
-						className='grid w-11/12 max-w-2xl gap-20'>
+						onSubmit={e => handleSubmit(e, userInputs, validateForm, 'register')}
+						className='grid w-11/12 max-w-2xl gap-16'>
 						<div className='grid gap-12'>
 							<fieldset className='relative'>
 								{!nameIsValid && (
@@ -134,6 +133,7 @@ export const Register = () => {
 									placeholder='Email'
 									value={enteredEmail}
 									onChange={handleInputChange}
+									autoComplete={'email'}
 									wrapperStyle='relative flex items-center cursor-pointer'
 									className={`${
 										emailHasError ? 'ring-rose-500' : emailIsValid ? 'ring-green-500' : ''
@@ -191,13 +191,24 @@ export const Register = () => {
 							</fieldset>
 						</div>
 
-						<fieldset className='flex flex-col gap-8'>
+						<fieldset className='relative flex flex-col gap-8'>
+							<small
+								className={cm([
+									'absolute left-1/2 -translate-x-1/2 w-full px-16',
+									'text-xl text-red-500 font-semibold text-center tracking-wide',
+									'transition-[opacity,transform]  duration-300 ease-in-out',
+									serverErrMsg
+										? '-translate-y-10 opacity-100 visible'
+										: '-translate-y-0 opacity-0 invisible'
+								])}>
+								{serverErrMsg}
+							</small>
 							<Button
 								hasRipple
 								type='submit'
 								variant={'secondary_orange'}
 								onClick={() => validateForm()}
-								className='py-6 shadow'>
+								className='mt-8 shadow'>
 								<span>SIGN UP</span>
 								{isSubmitting && (
 									<SpinnerIcon className='absolute z-10 -translate-y-1/2 right-10 top-1/2 ' />
@@ -207,30 +218,16 @@ export const Register = () => {
 							{/* DIVIDER */}
 							<div className='relative flex items-center justify-center gap-4 my-8 group'>
 								<span className='relative w-full h-px bg-Orange/50'>&nbsp;</span>
-								<span className='absolute p-8 text-xl font-medium bg-white rounded-full text-Dark_grayish_blue/75'>
-									Or register with
+								<span className='absolute p-8 text-xl font-bold bg-white rounded-full text-Dark_grayish_blue/75'>
+									OR
 								</span>
 							</div>
 
-							<ToolTip tip={'Todo 🤔 maybe!'} renderCenter className='grid'>
-								<Button
-									hasRipple
-									rippleColor='bg-Dark_grayish_blue'
-									className='flex items-center justify-center gap-4 py-6 font-bold shadow ring-1 ring-Grayish_blue text-Dark_grayish_blue focus-visible:outline-offset-4'>
-									<Image src={googleIcon} alt='google icon' className='w-8 h-8' />
-									<span>google authentication</span>
-								</Button>
-							</ToolTip>
+							<GoogleButton />
 						</fieldset>
 					</form>
 
-					<p className='flex items-center gap-2 mt-16 text-xl text-Dark_grayish_blue'>
-						<span className='px-4 font-semibold'>Don't have an account</span>
-						<span className='text-4xl'>|</span>
-						<Button href='/auth/login' variant={'login_logout'} className='text-Orange'>
-							Sign In
-						</Button>
-					</p>
+					<SwitchForm href='/auth/login' message='Actually I have an account' />
 				</>
 			)}
 		</AuthWrapper>

@@ -7,7 +7,7 @@ import logo from '../../../public/assets/icons/logo.svg';
 
 export const Footer = () => {
 	return (
-		<footer className='px-8 py-16 mt-auto min-h-[5rem] border-t-2 border-Very_light_grayish_blue'>
+		<footer className='px-8 py-16 min-h-[5rem] border-t-2 border-Very_light_grayish_blue'>
 			<div className='flex justify-center'>
 				<Button
 					href='/'

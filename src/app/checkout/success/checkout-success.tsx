@@ -1,8 +1,10 @@
 'use client';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+
 import { useCartStore } from '@/store';
 import { SuccessIcon } from '@/components/icons';
+import { cm } from '@/lib/class-merger';
 
 export const CheckoutSuccess = () => {
 	const router = useRouter();
@@ -15,7 +17,11 @@ export const CheckoutSuccess = () => {
 	return (
 		<section className='mx-8 my-40 lg:my-60'>
 			<div className='grid items-center gap-8 text-center justify-items-center'>
-				<h2 className='text-5xl font-bold leading-snug text-transparent capitalize bg-gradient-to-br from-Very_dark_blue via-green-400 to-Very_dark_blue bg-clip-text'>
+				<h2
+					className={cm([
+						'text-5xl font-bold leading-snug text-transparent capitalize',
+						'bg-gradient-to-br from-Very_dark_blue via-green-400 to-Very_dark_blue bg-clip-text'
+					])}>
 					thank you for your purchase
 				</h2>
 				<SuccessIcon className='w-96 h-96 stroke-indigo-400' />

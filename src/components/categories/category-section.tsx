@@ -1,4 +1,5 @@
 'use client';
+import { cm } from '@/lib/class-merger';
 import { useProductStore } from '@/store';
 import { TProductCategory } from '@/types/product';
 
@@ -26,7 +27,12 @@ export const CategorySection = () => {
 					<Button
 						key={category}
 						rounded={'full'}
-						className='p-4 font-medium hover:text-Dark_grayish_blue [&[aria-current="true"]]:text-Dark_grayish_blue [&[aria-current="true"]]:border-Dark_grayish_blue lg:text-xl text-Grayish_blue border border-Grayish_blue focus-visible:outline-offset-2 focus-visible:outline-1 focus-visible:outline-dashed'
+						className={cm([
+							'p-4 font-medium text-Grayish_blue border border-Grayish_blue lg:text-xl',
+							'hover:text-Dark_grayish_blue',
+							'[&[aria-current="true"]]:text-Dark_grayish_blue [&[aria-current="true"]]:border-Dark_grayish_blue',
+							'focus-visible:outline-offset-2 focus-visible:outline-1 focus-visible:outline-dashed'
+						])}
 						aria-current={selectedCategory === category}
 						onClick={() => setSelectedCategory(category)}>
 						<span>{category}</span>

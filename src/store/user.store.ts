@@ -1,8 +1,8 @@
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 import { TFavoriteItem } from '@/types/favorite';
 import { THistoryItem } from '@/types/history';
 import { TOrder } from '@/types/order';
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
 
 type UserState = {
 	favoriteList: TFavoriteItem[];

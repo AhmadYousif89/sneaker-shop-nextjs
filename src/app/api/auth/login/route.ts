@@ -1,11 +1,52 @@
-import { NextApiRequest, NextApiResponse } from 'next';
 import { NextRequest, NextResponse } from 'next/server';
+import * as bcrypt from 'bcrypt';
+import { prisma } from '@/lib/db';
+import { EMAIL_REGEX, PASSWORD_REGEX } from '@/lib/regex';
 
-export function POST(req: Request, res: Response) {
-	const userCredentials = req.body;
-	return NextResponse.json(userCredentials);
-}
+export async function POST(req: NextRequest) {
+	const body: RequestBody = await req.json();
 
-export function GET(req: NextRequest, res: NextResponse) {
-	return NextResponse.json('login page');
+	for (const key in body) {
+		const input = key as keyof RequestBody;
+		if (input === 'email') {
+			const isValidEmail = EMAIL_REGEX.test(body.email);
+			if (!isValidEmail) {
+				return new NextResponse(JSON.stringify(null), {
+					status: 422,
+					statusText: 'email is not valid'
+				});
+			}
+		}
+		if (input === 'password') {
+			const isValidPassword = PASSWORD_REGEX.test(body.password);
+			if (!isValidPassword) {
+				return new NextResponse(JSON.stringify(null), {
+					status: 422,
+					statusText: 'minimum 3 characters with 1 number'
+				});
+			}
+		}
+	}
+
+	const user = await prisma.user.findUnique({ where: { email: body.email } });
+
+	if (!user) {
+		return new NextResponse(JSON.stringify(null), {
+			status: 404,
+			statusText: 'user not found'
+		});
+	}
+
+	const validatePassword = await bcrypt.compare(body.password, user.password);
+	if (!validatePassword)
+		return new NextResponse(JSON.stringify(null), {
+			status: 401,
+			statusText: 'unauthorized'
+		});
+
+	const { password, ...currentUser } = user;
+	return new NextResponse(JSON.stringify(currentUser), {
+		status: 200,
+		statusText: 'signin success'
+	});
 }

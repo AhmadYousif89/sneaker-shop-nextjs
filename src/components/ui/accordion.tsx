@@ -1,26 +1,39 @@
-import { ComponentProps, FC, useState } from 'react';
+import {
+	FC,
+	Dispatch,
+	ComponentProps,
+	MouseEventHandler,
+	SetStateAction,
+	useState
+} from 'react';
 import { cm } from '@/lib/class-merger';
 import { ChevronIcon } from '../icons';
 import { Button } from './button';
 
 type AccordionProps = {
 	header: string;
-	body?: string | JSX.Element;
 	icon?: JSX.Element;
 	headerColor?: string;
-	bodyColor?: string;
+	bodyStyle?: string;
 	initState?: boolean;
+	setState?: Dispatch<SetStateAction<boolean>>;
 } & ComponentProps<'section'>;
 
 export const Accordion: FC<AccordionProps> = ({
-	body,
-	bodyColor,
 	header,
+	bodyStyle,
 	headerColor,
 	initState = true,
+	setState,
 	...props
 }) => {
-	const [expand, setExpand] = useState<boolean>(initState);
+	const [isExpanded, setIsExpanded] = useState(initState);
+
+	const handleClick: MouseEventHandler = e => {
+		e.stopPropagation();
+		if (setState) setState(pv => !pv);
+		setIsExpanded(pv => !pv);
+	};
 
 	return (
 		<section
@@ -28,32 +41,33 @@ export const Accordion: FC<AccordionProps> = ({
 				'my-4 overflow-hidden text-white lg:my-8 rounded-2xl shadow-md',
 				props.className
 			])}>
-			<div
+			<header
+				onClick={handleClick}
 				className={cm([
 					'flex items-center justify-between px-8 py-4 bg-Orange',
 					headerColor
 				])}>
 				<h4 className='text-2xl font-semibold'>{header}</h4>
 				<Button
-					aria-expanded={expand}
-					onClick={() => setExpand(!expand)}
+					onClick={handleClick}
+					aria-expanded={isExpanded}
 					className='bg-white rounded-full focus-visible:outline-Very_dark_blue focus-visible:outline-dotted'>
 					<ChevronIcon
 						className={cm([
 							'transition-transform duration-300 rotate-90',
 							'hover:fill-Orange',
-							expand && '-rotate-90'
+							isExpanded && '-rotate-90'
 						])}
 					/>
 				</Button>
-			</div>
+			</header>
 
 			<div
 				className={cm([
 					'relative grid grid-rows-[0fr] bg-Dark_grayish_blue',
 					'transition-[grid-template-rows] duration-500',
-					expand && 'grid-rows-[1fr]',
-					bodyColor
+					isExpanded && 'grid-rows-[1fr]',
+					bodyStyle
 				])}>
 				<div className='absolute inset-0 border-t border-Very_light_grayish_blue'>
 					&nbsp;

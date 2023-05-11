@@ -1,10 +1,10 @@
 import { create } from 'zustand';
 
 type UIState = {
-	sideMenu: boolean;
-	cartModal: boolean;
-	userModal: boolean;
-	lightboxIsOpen: boolean;
+	sideMenuStatus: boolean;
+	cartModalStatus: boolean;
+	userModalStatus: boolean;
+	lightboxStatus: boolean;
 };
 
 type UIActions = {
@@ -17,20 +17,26 @@ type UIActions = {
 type InitUIStore = UIState & UIActions;
 
 export const useUIStore = create<InitUIStore>((set, get) => ({
-	sideMenu: false,
-	cartModal: false,
-	userModal: false,
-	lightboxIsOpen: false,
+	sideMenuStatus: false,
+	cartModalStatus: false,
+	userModalStatus: false,
+	lightboxStatus: false,
 	setCartStatus: toggle =>
-		set({ cartModal: typeof toggle === 'boolean' ? toggle : toggle(get().cartModal) }),
+		set({
+			cartModalStatus:
+				typeof toggle === 'boolean' ? toggle : toggle(get().cartModalStatus)
+		}),
 	setMenuStatus: toggle =>
-		set({ sideMenu: typeof toggle === 'boolean' ? toggle : toggle(get().sideMenu) }),
+		set({
+			sideMenuStatus: typeof toggle === 'boolean' ? toggle : toggle(get().sideMenuStatus)
+		}),
 	setProfileStatus: toggle =>
 		set({
-			userModal: typeof toggle === 'boolean' ? toggle : toggle(get().userModal)
+			userModalStatus:
+				typeof toggle === 'boolean' ? toggle : toggle(get().userModalStatus)
 		}),
 	setLightboxStatus: toggle =>
 		set({
-			lightboxIsOpen: typeof toggle === 'boolean' ? toggle : toggle(get().lightboxIsOpen)
+			lightboxStatus: typeof toggle === 'boolean' ? toggle : toggle(get().lightboxStatus)
 		})
 }));

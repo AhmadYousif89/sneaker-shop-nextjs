@@ -1,13 +1,10 @@
 'use client';
 import { ChangeEventHandler, useState } from 'react';
+import { NAME_REGEX, EMAIL_REGEX, PASSWORD_REGEX } from '@/lib/regex';
 
 export type InputName = 'name' | 'email' | 'password';
 
 type Input = { id: InputName; value: string; isValid: boolean; errorMsg: string };
-
-const NAME_REGEX = /^\S+(\s\S+)*$/;
-const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-z]{1,8}$/;
-const PASSWORD_REGEX = /^((?!.*[\s])(?=.*\d).{3,})/;
 
 const createInputs = (inputNames: InputName[]): Input[] => {
 	return inputNames.map(inputName => ({

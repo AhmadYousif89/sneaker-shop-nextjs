@@ -1,16 +1,14 @@
 'use client';
 import Image from 'next/image';
-import { Ref, useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useProductStore, useUIStore } from '@/store';
 import { useCarousel } from '@/hooks/use-carousel';
 import { product } from '@/data/featured-product';
 
 import { Button } from '../ui/button';
 import { CloseIcon, ChevronIcon } from '../icons';
-import { SkeletonCarousel } from '../skeletons/skeleton-carousel';
 
 export const ProductCarousel = ({ inLightbox = false }) => {
-	const imgRef = useRef<HTMLImageElement>(null);
 	const mainCarouselRef = useRef<HTMLDivElement>(null);
 	const curImageIdx = useProductStore(s => s.curImageIdx);
 	const curImageHandler = useProductStore(s => s.curImageHandler);
@@ -65,8 +63,6 @@ export const ProductCarousel = ({ inLightbox = false }) => {
 			mainCarouselRef.current.style.outline = 'none';
 		}
 	}, [inLightbox]);
-
-	// if (isLoading) return <SkeletonCarousel />;
 
 	return (
 		<>

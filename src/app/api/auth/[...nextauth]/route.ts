@@ -1,0 +1,55 @@
+import NextAuth, { AuthOptions } from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import GoogleProvider from 'next-auth/providers/google';
+import { prisma } from '@/lib/db';
+import { compare } from 'bcrypt';
+
+export const authOptions: AuthOptions = {
+	session: { strategy: 'jwt', maxAge: 60 * 60 * 24 * 7 },
+	providers: [
+		CredentialsProvider({
+			credentials: {},
+			authorize: async credentials => {
+				const { email, password } = credentials as RequestBody;
+
+				const user = await prisma.user.findUnique({ where: { email } });
+				if (!user) throw new Error("user doesn't exist");
+
+				const isValid = await compare(password, user.password);
+				if (!isValid) throw new Error('invalid credentials');
+
+				const { password: storedPassword, ...curUser } = user;
+				return { ...curUser };
+			}
+		}),
+		GoogleProvider({
+			clientId: process.env.GOOGLE_ID,
+			clientSecret: process.env.GOOGLE_SECRET
+		})
+	],
+	pages: { signIn: '/auth/login', newUser: '/auth/register' },
+	callbacks: {
+		session: ({ session, token }) => {
+			return {
+				...session,
+				user: {
+					...session.user,
+					userId: token.id
+				}
+			};
+		},
+		jwt: ({ token, user }) => {
+			if (user) {
+				const u = user as unknown as any;
+				return {
+					...token,
+					userId: u.id
+				};
+			}
+			return token;
+		}
+	}
+};
+
+const handler = NextAuth(authOptions);
+export { handler as GET, handler as POST };

@@ -15,7 +15,7 @@ export const OrderList = () => {
 	sortedOrders.sort((a, b) => b.date.localeCompare(a.date));
 
 	return (
-		<section className='flex flex-col'>
+		<div className='flex flex-col'>
 			<h2 className='self-center mb-8 text-2xl'>Most Recent</h2>
 			<ul className='grid grid-cols-1 gap-8'>
 				{sortedOrders.map((item, idx) => (
@@ -38,6 +38,6 @@ export const OrderList = () => {
 					</ListItem>
 				))}
 			</ul>
-		</section>
+		</div>
 	);
 };

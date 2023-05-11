@@ -33,7 +33,6 @@ export const products: TProduct[] = [
 		availableQty: 8,
 		discountPercentage: 17,
 		category: 'sports',
-		inStock: true,
 		discountedPrice: 99.6
 	},
 	{
@@ -48,7 +47,6 @@ export const products: TProduct[] = [
 		availableQty: 5,
 		discountPercentage: 11,
 		category: 'running',
-		inStock: true,
 		discountedPrice: 160.2
 	},
 	{
@@ -63,7 +61,6 @@ export const products: TProduct[] = [
 		availableQty: 10,
 		discountPercentage: 25,
 		category: 'running',
-		inStock: true,
 		discountedPrice: 67.5
 	},
 	{
@@ -78,7 +75,6 @@ export const products: TProduct[] = [
 		availableQty: 3,
 		discountPercentage: 15,
 		category: 'sports',
-		inStock: true,
 		discountedPrice: 148.75
 	},
 	{
@@ -93,7 +89,6 @@ export const products: TProduct[] = [
 		availableQty: 7,
 		discountPercentage: 20,
 		category: 'training',
-		inStock: true,
 		discountedPrice: 104
 	},
 	{
@@ -108,7 +103,6 @@ export const products: TProduct[] = [
 		availableQty: 12,
 		discountPercentage: 0,
 		category: 'fashion',
-		inStock: true,
 		discountedPrice: 80
 	},
 	{
@@ -123,7 +117,6 @@ export const products: TProduct[] = [
 		availableQty: 6,
 		discountPercentage: 10,
 		category: 'training',
-		inStock: true,
 		discountedPrice: 117
 	},
 	{
@@ -138,7 +131,6 @@ export const products: TProduct[] = [
 		availableQty: 9,
 		discountPercentage: 5,
 		category: 'running',
-		inStock: true,
 		discountedPrice: 66.5
 	},
 	{
@@ -153,7 +145,6 @@ export const products: TProduct[] = [
 		availableQty: 4,
 		discountPercentage: 12,
 		category: 'running',
-		inStock: true,
 		discountedPrice: 140.8
 	},
 	{
@@ -168,7 +159,6 @@ export const products: TProduct[] = [
 		availableQty: 11,
 		discountPercentage: 8,
 		category: 'sports',
-		inStock: true,
 		discountedPrice: 92
 	},
 	{
@@ -183,7 +173,6 @@ export const products: TProduct[] = [
 		availableQty: 7,
 		discountPercentage: 10,
 		category: 'fashion',
-		inStock: true,
 		discountedPrice: 130
 	},
 	{
@@ -198,7 +187,6 @@ export const products: TProduct[] = [
 		availableQty: 3,
 		discountPercentage: 15,
 		category: 'gym',
-		inStock: true,
 		discountedPrice: 55.25
 	},
 	{
@@ -213,7 +201,6 @@ export const products: TProduct[] = [
 		availableQty: 2,
 		discountPercentage: 20,
 		category: 'running',
-		inStock: true,
 		discountedPrice: 144
 	},
 	{
@@ -228,7 +215,6 @@ export const products: TProduct[] = [
 		availableQty: 8,
 		discountPercentage: 0,
 		category: 'training',
-		inStock: true,
 		discountedPrice: 130
 	},
 	{
@@ -243,7 +229,6 @@ export const products: TProduct[] = [
 		availableQty: 5,
 		discountPercentage: 0,
 		category: 'sports',
-		inStock: true,
 		discountedPrice: 150
 	},
 	{
@@ -258,7 +243,6 @@ export const products: TProduct[] = [
 		availableQty: 9,
 		discountPercentage: 5,
 		category: 'sports',
-		inStock: true,
 		discountedPrice: 152
 	},
 	{
@@ -273,7 +257,6 @@ export const products: TProduct[] = [
 		availableQty: 6,
 		discountPercentage: 8,
 		category: 'gym',
-		inStock: true,
 		discountedPrice: 165.6
 	},
 	{
@@ -288,7 +271,6 @@ export const products: TProduct[] = [
 		availableQty: 4,
 		discountPercentage: 10,
 		category: 'training',
-		inStock: true,
 		discountedPrice: 108
 	},
 	{
@@ -303,7 +285,6 @@ export const products: TProduct[] = [
 		availableQty: 7,
 		discountPercentage: 20,
 		category: 'fashion',
-		inStock: true,
 		discountedPrice: 75
 	},
 	{
@@ -318,7 +299,6 @@ export const products: TProduct[] = [
 		availableQty: 10,
 		discountPercentage: 15,
 		category: 'fashion',
-		inStock: true,
 		discountedPrice: 55.25
 	},
 	{
@@ -333,7 +313,6 @@ export const products: TProduct[] = [
 		availableQty: 5,
 		discountPercentage: 0,
 		category: 'fashion',
-		inStock: true,
 		discountedPrice: 80
 	},
 	{
@@ -348,7 +327,6 @@ export const products: TProduct[] = [
 		availableQty: 3,
 		discountPercentage: 0,
 		category: 'gym',
-		inStock: true,
 		discountedPrice: 110
 	},
 	{
@@ -363,7 +341,6 @@ export const products: TProduct[] = [
 		availableQty: 6,
 		discountPercentage: 10,
 		category: 'gym',
-		inStock: true,
 		discountedPrice: 135
 	},
 	{
@@ -378,7 +355,6 @@ export const products: TProduct[] = [
 		availableQty: 9,
 		discountPercentage: 5,
 		category: 'gym',
-		inStock: true,
 		discountedPrice: 171
 	},
 	{
@@ -393,7 +369,6 @@ export const products: TProduct[] = [
 		availableQty: 11,
 		discountPercentage: 0,
 		category: 'training',
-		inStock: true,
 		discountedPrice: 130
 	}
 ];

@@ -25,6 +25,5 @@ export const product: TProduct = {
 		"These low-profile sneakers are your perfect casual wear companion. Featuring a durable ruber outer sole, they'll withstand everything the weather can offer.",
 	price: 250,
 	discountedPrice: 125,
-	discountPercentage: 0.5,
-	inStock: true
+	discountPercentage: 0.5
 };

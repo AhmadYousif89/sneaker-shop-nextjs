@@ -1,7 +1,11 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useUserStore } from '@/store';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useAuthStore, useUserStore } from '@/store';
+import Loading from '@/app/loading';
+import { cm } from '@/lib/class-merger';
+import { useHydratedStore } from '@/hooks/use-hydrated-store';
 
 import { DeleteIcon } from '../icons';
 import { Button } from '../ui/button';
@@ -10,44 +14,41 @@ import { ItemsDetails } from './items-details';
 import { OrderStatus } from './order-status';
 import { OrderSummary } from './order-summary';
 import { PersonalInfo } from './personal-info';
-import { useHydratedStore } from '@/hooks/use-hydrated-store';
 
 export const Order = ({ id }: { id: string }) => {
 	const router = useRouter();
+	const { status } = useSession();
 	const [modal, setModal] = useState(false);
-	const orderList = useHydratedStore(useUserStore, s => s.orderList);
+
 	const deleteOrder = useUserStore(s => s.deleteOrder);
-	const user = useAuthStore(s => s.user);
+	const curOrder = useUserStore(s => s.orderList.find(order => order.id === id));
 
-	const curOrder = orderList?.find(order => order.id === id);
+	// const curOrder = useHydratedStore(useUserStore, s =>
+	// 	s.orderList.find(order => order.id === id)
+	// );
 
-	useEffect(() => {
-		if (!user) router.replace('/auth/login');
-	}, [router, user]);
-
-	if (orderList?.length === 0)
-		return (
-			<p className='mx-8 my-24 text-3xl font-bold text-center text-Dark_grayish_blue'>
-				You have not placed any order !
-			</p>
-		);
+	if (status === 'loading') return <Loading />;
 
 	if (!curOrder)
 		return (
-			<p className='mx-8 my-24 text-3xl font-bold text-center text-Dark_grayish_blue'>
-				Order Not Found !
-			</p>
+			<div className='flex-1 grid items-center'>
+				<p className='text-2xl font-semibold tracking-widest text-center uppercase lg:text-3xl text-Grayish_blue'>
+					order not found
+				</p>
+			</div>
 		);
+
+	const handleDeleteOrder = () => {
+		deleteOrder(curOrder.id);
+		router.replace('/');
+	};
 
 	return (
 		<>
 			<ActionModal
 				state={modal}
 				variant={'delete_order'}
-				onConfirm={() => {
-					deleteOrder?.(curOrder.id);
-					router.replace('/');
-				}}
+				onConfirm={handleDeleteOrder}
 				onCancel={() => setModal(false)}
 			/>
 			<section className='grid gap-8 mx-8 my-16 lg:grid-cols-3 lg:my-32'>
@@ -58,9 +59,9 @@ export const Order = ({ id }: { id: string }) => {
 					</div>
 
 					<div className='flex items-center justify-between text-xl tracking-wide normal-case text-Dark_grayish_blue'>
-						<span>Placed on : {curOrder.date}</span>
+						<div>Placed on : {curOrder.date}</div>
 						<Button
-							title='delete this order'
+							title='delete order'
 							onClick={() => setModal(true)}
 							className='flex items-center justify-center w-16 h-16 rounded-lg group bg-Light_grayish_blue'>
 							<DeleteIcon className='fill-Very_dark_blue group-hover:fill-Orange group-focus-visible:fill-Orange' />
@@ -69,11 +70,8 @@ export const Order = ({ id }: { id: string }) => {
 				</section>
 
 				<ItemsDetails currentOrderCart={curOrder.cart} />
-
 				<OrderSummary currentOrder={curOrder} />
-
 				<PersonalInfo />
-
 				<OrderStatus />
 			</section>
 		</>

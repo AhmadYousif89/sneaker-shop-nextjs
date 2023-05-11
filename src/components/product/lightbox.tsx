@@ -4,7 +4,7 @@ import { Overlay } from '../ui/overlay';
 import { ProductCarousel } from './carousel';
 
 export const Lightbox = () => {
-	const lightboxIsOpen = useUIStore(s => s.lightboxIsOpen);
+	const lightboxIsOpen = useUIStore(s => s.lightboxStatus);
 	const setLightboxStatus = useUIStore(s => s.setLightboxStatus);
 
 	if (!lightboxIsOpen) return null;

@@ -7,7 +7,7 @@ import { product } from '@/data/featured-product';
 import { Button } from '../ui/button';
 import { getMonth } from '@/lib/get-month';
 
-const productImg = (product.image.thumb as string[])[0];
+const [productImg] = product.image.thumb as string[];
 
 export const FeaturedProduct = () => {
 	const addItemHistory = useUserStore(s => s.addItemHistory);

@@ -17,7 +17,7 @@ export const HistoryList = () => {
 		);
 
 	return (
-		<section className='flex flex-col'>
+		<div className='flex flex-col'>
 			<h2 className='self-center mb-8 text-2xl'>Most Recent</h2>
 			<ul className='grid grid-cols-1 gap-4 mx-8 justify-items-center'>
 				{historyList.map(item => (
@@ -40,6 +40,6 @@ export const HistoryList = () => {
 					</ListItem>
 				))}
 			</ul>
-		</section>
+		</div>
 	);
 };

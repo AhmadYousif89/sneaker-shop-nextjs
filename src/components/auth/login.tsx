@@ -1,13 +1,12 @@
 'use client';
-import Image from 'next/image';
 import { Input } from '../ui/input';
-import ToolTip from '../ui/tooltip';
 import { Button } from '../ui/button';
-import { AuthWrapper } from './auth-wrapper';
+import { AuthWrapper, SubmitHandler } from './auth-wrapper';
 import { EmailIcon, LockIcon, SpinnerIcon } from '../icons';
 import { InputName, useFormInputs } from '@/hooks/use-form-inputs';
-
-import googleIcon from '../../../public/assets/icons/google.png';
+import { GoogleButton } from './google-btn';
+import { SwitchForm } from './switch-form';
+import { cm } from '@/lib/class-merger';
 
 export const Login = () => {
 	const { inputForm, handleInputChange, validateForm } = useFormInputs([
@@ -55,14 +54,13 @@ export const Login = () => {
 	const passwordHasError = !passwordIsValid && passwordErrMsg;
 
 	const userInputs = {
-		name: 'Big_Jo_89',
 		email: enteredEmail,
 		password: enteredPassword
 	};
 
 	return (
 		<AuthWrapper>
-			{(handleSubmit: any, isSubmitting: boolean) => (
+			{(handleSubmit, isSubmitting, serverErrMsg) => (
 				<>
 					<div className='space-y-4 text-center text-Dark_grayish_blue'>
 						<h3 className='text-4xl font-bold capitalize'>login to your account</h3>
@@ -72,8 +70,10 @@ export const Login = () => {
 					</div>
 
 					<form
-						onSubmit={e => handleSubmit(e, userInputs, validateForm)}
-						className='grid w-11/12 max-w-2xl gap-20'>
+						onSubmit={e =>
+							handleSubmit(e, userInputs as RequestBody, validateForm, 'login')
+						}
+						className='grid w-11/12 max-w-2xl gap-16'>
 						<div className='grid gap-12'>
 							<fieldset className='relative'>
 								{!emailIsValid && (
@@ -89,6 +89,7 @@ export const Login = () => {
 									name={emailId}
 									variant={'auth'}
 									placeholder='Email'
+									autoComplete={'email'}
 									value={enteredEmail}
 									onChange={handleInputChange}
 									wrapperStyle='relative flex items-center cursor-pointer'
@@ -152,7 +153,10 @@ export const Login = () => {
 									name='persist'
 									required={false}
 									type={'checkbox'}
-									wrapperStyle='flex items-center gap-4 cursor-pointer'>
+									wrapperStyle={cm([
+										'flex items-center gap-4 cursor-pointer p-2 rounded-md',
+										'focus-within:ring-2 focus-within:ring-Orange'
+									])}>
 									<p className='text-xl font-bold text-Grayish_blue hover:text-Orange/75'>
 										keep me logged in
 									</p>
@@ -164,7 +168,19 @@ export const Login = () => {
 							</fieldset>
 						</div>
 
-						<fieldset className='flex flex-col gap-8'>
+						<fieldset className='relative flex flex-col gap-8'>
+							<small
+								className={cm([
+									'absolute left-1/2 -translate-x-1/2 w-full px-16',
+									'text-xl text-red-500 font-semibold text-center tracking-wide',
+									'transition-[opacity,transform]  duration-300 ease-in-out',
+									serverErrMsg
+										? '-translate-y-10 opacity-100 visible'
+										: '-translate-y-0 opacity-0 invisible'
+								])}>
+								{serverErrMsg}
+							</small>
+
 							<Button
 								hasRipple
 								type='submit'
@@ -179,35 +195,17 @@ export const Login = () => {
 
 							{/* DIVIDER */}
 							<div className='relative flex items-center justify-center gap-4 my-8 group'>
-								<span className='absolute py-8 text-xl font-medium text-center rounded-full text-Dark_grayish_blue/75'>
-									Or login with your socials, <b>Don't worry,</b> we'd never share your
-									data 😈
+								<span className='relative w-full h-px bg-Orange/50'>&nbsp;</span>
+								<span className='absolute p-8 text-xl font-bold bg-white rounded-full text-Dark_grayish_blue/75'>
+									OR
 								</span>
 							</div>
 
-							<ToolTip tip={'Todo 🤔 maybe!'} renderCenter className='grid'>
-								<Button
-									hasRipple
-									rippleColor='bg-Dark_grayish_blue'
-									className='flex items-center justify-center gap-4 py-6 font-bold shadow ring-1 ring-Grayish_blue text-Dark_grayish_blue focus-visible:outline-offset-4'>
-									<Image src={googleIcon} alt='google icon' className='w-8 h-8' />
-									<span>google authentication</span>
-								</Button>
-							</ToolTip>
+							<GoogleButton />
 						</fieldset>
 					</form>
 
-					<p className='flex items-center gap-2 mt-16 text-xl text-Dark_grayish_blue'>
-						<span className='px-4 font-semibold'>I already have an account</span>
-						<span className='text-4xl'>|</span>
-
-						<Button
-							href='/auth/register'
-							variant={'login_logout'}
-							className='text-Orange'>
-							Sign Up
-						</Button>
-					</p>
+					<SwitchForm href='/auth/register' message='You know what, let me' />
 				</>
 			)}
 		</AuthWrapper>

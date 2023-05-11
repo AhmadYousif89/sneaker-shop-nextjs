@@ -5,7 +5,7 @@ export const metadata = {
 	description: 'Sneakers shop checkout success page.'
 };
 
-const CheckoutSuccessPage = () => {
+const CheckoutSuccessPage = async () => {
 	return <CheckoutSuccess />;
 };
 
