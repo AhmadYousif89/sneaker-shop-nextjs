@@ -1,5 +1,8 @@
 import Image from 'next/image';
-import { useAuthStore, useCartStore, useUIStore } from '@/store';
+import { useSession } from 'next-auth/react';
+import { useCartStore, useUIStore } from '@/store';
+import { cm } from '@/lib/class-merger';
+
 import profileImg from '../../../public/assets/images/avatar.png';
 import logo from '../../../public/assets/icons/logo.svg';
 
@@ -7,8 +10,6 @@ import { CartIcon, UserIcon } from '../icons';
 import { SideNavigation } from './side-nav';
 import { TopNavigation } from './top-nav';
 import { Button } from '../ui/button';
-import { cm } from '@/lib/class-merger';
-import { useSession } from 'next-auth/react';
 
 export const Header = ({ children }: { children: React.ReactNode }) => {
 	const { data: session } = useSession();
@@ -54,7 +55,14 @@ export const Header = ({ children }: { children: React.ReactNode }) => {
 						userModalStatus && 'ring-2 ring-Orange'
 					])}>
 					{session?.user.email ? (
-						<Image alt='user profile icon' src={profileImg} aria-hidden />
+						<Image
+							src={session?.user?.image ? session?.user.image : profileImg}
+							alt='profile image'
+							className='rounded-full shadow'
+							width={50}
+							height={50}
+							aria-hidden
+						/>
 					) : (
 						<UserIcon className='object-cover w-full h-full fill-Dark_grayish_blue' />
 					)}

@@ -16,7 +16,7 @@ type AuthWrapperProps = {
 	children: (
 		handleSubmit: SubmitHandler,
 		isSubmitting: boolean,
-		serverErrMsg?: string | null
+		serverErrMsg?: string
 	) => ReactNode | ReactNode;
 };
 
@@ -77,10 +77,12 @@ export const AuthWrapper = ({ children, className = '' }: AuthWrapperProps) => {
 	return (
 		<section
 			className={cm([
-				'grid grid-rows-[12rem,12rem,auto,10rem] justify-items-center p-8',
+				'grid grid-rows-[14rem,12rem,auto,10rem] justify-items-center p-4 m-8',
+				'shadow-lg rounded-3xl',
+				'lg:shadow-none lg:rounded-none',
 				className
 			])}>
-			<div className='space-y-8 text-center'>
+			<div className='space-y-8 text-center mt-4'>
 				<h2 className='text-3xl lg:text-4xl font-bold uppercase text-Very_dark_blue'>
 					hey there!
 				</h2>

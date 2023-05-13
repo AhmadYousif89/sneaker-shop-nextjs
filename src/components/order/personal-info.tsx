@@ -25,7 +25,9 @@ export const PersonalInfo = () => {
 						<Image
 							src={data?.user?.image ? data?.user.image : profileImg}
 							alt='profile image'
-							className='w-16'
+							className='rounded-full shadow'
+							width={50}
+							height={50}
 						/>
 						<div className='grid items-center grid-cols-2 gap-4 justify-items-center'>
 							<p className='text-3xl font-bold text-Orange'>{data?.user?.name}</p>
@@ -35,11 +37,8 @@ export const PersonalInfo = () => {
 							</p>
 						</div>
 					</div>
-					<p className='flex items-end justify-between'>
-						<span className='text-xl text-Dark_grayish_blue'>Current Email</span>
-						<span className='text-3xl tracking-wider text-Dark_grayish_blue/75'>
-							{data?.user?.email}
-						</span>
+					<p className='text-3xl tracking-wider text-Dark_grayish_blue/75 text-right'>
+						<span>{data?.user?.email}</span>
 					</p>
 				</div>
 

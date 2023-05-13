@@ -7,6 +7,7 @@ import { useFormInputs, InputName } from '@/hooks/use-form-inputs';
 import { GoogleButton } from './google-btn';
 import { SwitchForm } from './switch-form';
 import { cm } from '@/lib/class-merger';
+import { ServerErrorMsg } from './server-error-msg';
 
 export const Register = () => {
 	const { inputForm, handleInputChange, validateForm } = useFormInputs([
@@ -82,10 +83,10 @@ export const Register = () => {
 					<form
 						onSubmit={e => handleSubmit(e, userInputs, validateForm, 'register')}
 						className='grid w-11/12 max-w-2xl gap-16'>
-						<div className='grid gap-12'>
+						<div className='grid gap-16'>
 							<fieldset className='relative'>
 								{!nameIsValid && (
-									<p className='absolute right-0 z-10 text-xl tracking-wide -top-10 text-rose-600'>
+									<p className='absolute right-0 z-10 text-xl tracking-wide -top-12 text-rose-600'>
 										{nameErrMsg}
 									</p>
 								)}
@@ -119,34 +120,33 @@ export const Register = () => {
 
 							<fieldset className='relative'>
 								{!emailIsValid && (
-									<p className='absolute right-0 z-10 text-xl tracking-wide -top-10 text-rose-600'>
+									<p className='absolute right-0 z-10 text-xl tracking-wide -top-12 text-rose-600'>
 										{emailErrMsg}
 									</p>
 								)}
 
 								<Input
 									required
-									type='text'
 									id={emailId}
 									name={emailId}
+									value={enteredEmail}
+									type='text'
 									variant={'auth'}
 									placeholder='Email'
-									value={enteredEmail}
-									onChange={handleInputChange}
 									autoComplete={'email'}
+									onChange={handleInputChange}
 									wrapperStyle='relative flex items-center cursor-pointer'
-									className={`${
-										emailHasError ? 'ring-rose-500' : emailIsValid ? 'ring-green-500' : ''
-									}`}>
+									className={cm([
+										emailHasError && 'ring-rose-500',
+										emailIsValid && 'ring-green-500'
+									])}>
 									<span className='fake-placeholder'>Email</span>
 									<span
-										className={`absolute right-5 w-8 h-8 peer-focus-visible:fill-Orange ${
-											emailHasError
-												? 'fill-rose-500'
-												: emailIsValid
-												? 'fill-green-500'
-												: 'fill-Grayish_blue'
-										}`}>
+										className={cm([
+											'absolute right-5 w-8 h-8 fill-Grayish_blue peer-focus-visible:fill-Orange',
+											emailHasError && 'fill-rose-500',
+											emailIsValid && 'fill-green-500'
+										])}>
 										<EmailIcon />
 									</span>
 								</Input>
@@ -154,7 +154,7 @@ export const Register = () => {
 
 							<fieldset className='relative'>
 								{!passwordIsValid && (
-									<p className='absolute right-0 z-10 text-xl tracking-wide -top-10 text-rose-600'>
+									<p className='absolute right-0 z-10 text-xl tracking-wide -top-12 text-rose-600'>
 										{passwordErrMsg}
 									</p>
 								)}
@@ -163,28 +163,23 @@ export const Register = () => {
 									required
 									type='password'
 									id={passwordId}
-									name={passwordId}
 									variant={'auth'}
+									name={passwordId}
 									value={enteredPassword}
 									placeholder={'Password'}
 									onChange={handleInputChange}
 									wrapperStyle='relative flex items-center cursor-pointer'
-									className={`${
-										passwordHasError
-											? 'ring-rose-500'
-											: passwordIsValid
-											? 'ring-green-500'
-											: ''
-									}`}>
+									className={cm([
+										passwordHasError && 'ring-rose-500',
+										passwordIsValid && 'ring-green-500'
+									])}>
 									<span className='fake-placeholder'>Password</span>
 									<span
-										className={`absolute right-5 w-8 h-8 peer-focus-visible:fill-Orange ${
-											passwordHasError
-												? 'fill-rose-500'
-												: passwordIsValid
-												? 'fill-green-500'
-												: 'fill-Grayish_blue'
-										}`}>
+										className={cm([
+											'absolute right-5 w-8 h-8 fill-Grayish_blue peer-focus-visible:fill-Orange',
+											passwordHasError && 'fill-rose-500',
+											passwordIsValid && 'fill-green-500'
+										])}>
 										<LockIcon />
 									</span>
 								</Input>
@@ -192,17 +187,8 @@ export const Register = () => {
 						</div>
 
 						<fieldset className='relative flex flex-col gap-8'>
-							<small
-								className={cm([
-									'absolute left-1/2 -translate-x-1/2 w-full px-16',
-									'text-xl text-red-500 font-semibold text-center tracking-wide',
-									'transition-[opacity,transform]  duration-300 ease-in-out',
-									serverErrMsg
-										? '-translate-y-10 opacity-100 visible'
-										: '-translate-y-0 opacity-0 invisible'
-								])}>
-								{serverErrMsg}
-							</small>
+							<ServerErrorMsg message={serverErrMsg} transY='-translate-y-6' />
+
 							<Button
 								hasRipple
 								type='submit'

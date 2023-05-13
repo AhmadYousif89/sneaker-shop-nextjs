@@ -19,3 +19,4 @@ export * from './email';
 export * from './user';
 export * from './logout';
 export * from './copy';
+export * from './search';

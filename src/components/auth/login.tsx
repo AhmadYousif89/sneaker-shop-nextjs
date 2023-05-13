@@ -7,6 +7,7 @@ import { InputName, useFormInputs } from '@/hooks/use-form-inputs';
 import { GoogleButton } from './google-btn';
 import { SwitchForm } from './switch-form';
 import { cm } from '@/lib/class-merger';
+import { ServerErrorMsg } from './server-error-msg';
 
 export const Login = () => {
 	const { inputForm, handleInputChange, validateForm } = useFormInputs([
@@ -74,37 +75,36 @@ export const Login = () => {
 							handleSubmit(e, userInputs as RequestBody, validateForm, 'login')
 						}
 						className='grid w-11/12 max-w-2xl gap-16'>
-						<div className='grid gap-12'>
+						<div className='grid gap-16'>
 							<fieldset className='relative'>
 								{!emailIsValid && (
-									<p className='absolute right-0 z-10 text-xl tracking-wide -top-10 text-rose-600'>
+									<p className='absolute right-0 z-10 text-xl tracking-wide -top-12 text-rose-600'>
 										{emailErrMsg}
 									</p>
 								)}
 
 								<Input
 									required
-									type='text'
 									id={emailId}
 									name={emailId}
+									value={enteredEmail}
+									type='text'
 									variant={'auth'}
 									placeholder='Email'
 									autoComplete={'email'}
-									value={enteredEmail}
 									onChange={handleInputChange}
 									wrapperStyle='relative flex items-center cursor-pointer'
-									className={`${
-										emailHasError ? 'ring-rose-500' : emailIsValid ? 'ring-green-500' : ''
-									}`}>
+									className={cm([
+										emailHasError && 'ring-rose-500',
+										emailIsValid && 'ring-green-500'
+									])}>
 									<span className='fake-placeholder'>Email</span>
 									<span
-										className={`absolute right-5 w-8 h-8 peer-focus-visible:fill-Orange ${
-											emailHasError
-												? 'fill-rose-500'
-												: emailIsValid
-												? 'fill-green-500'
-												: 'fill-Grayish_blue'
-										}`}>
+										className={cm([
+											'absolute right-5 w-8 h-8 fill-Grayish_blue peer-focus-visible:fill-Orange',
+											emailHasError && 'fill-rose-500',
+											emailIsValid && 'fill-green-500'
+										])}>
 										<EmailIcon />
 									</span>
 								</Input>
@@ -112,7 +112,7 @@ export const Login = () => {
 
 							<fieldset className='relative'>
 								{!passwordIsValid && (
-									<p className='absolute right-0 z-10 text-xl tracking-wide -top-10 text-rose-600'>
+									<p className='absolute right-0 z-10 text-xl tracking-wide -top-12 text-rose-600'>
 										{passwordErrMsg}
 									</p>
 								)}
@@ -127,59 +127,31 @@ export const Login = () => {
 									placeholder={'Password'}
 									onChange={handleInputChange}
 									wrapperStyle='relative flex items-center cursor-pointer'
-									className={`${
-										passwordHasError
-											? 'ring-rose-500'
-											: passwordIsValid
-											? 'ring-green-500'
-											: ''
-									}`}>
+									className={cm([
+										passwordHasError && 'ring-rose-500',
+										passwordIsValid && 'ring-green-500'
+									])}>
 									<span className='fake-placeholder'>Password</span>
 									<span
-										className={`absolute right-5 w-8 h-8 peer-focus-visible:fill-Orange ${
-											passwordHasError
-												? 'fill-rose-500'
-												: passwordIsValid
-												? 'fill-green-500'
-												: 'fill-Grayish_blue'
-										}`}>
+										className={cm([
+											'absolute right-5 w-8 h-8 fill-Grayish_blue peer-focus-visible:fill-Orange',
+											passwordHasError && 'fill-rose-500',
+											passwordIsValid && 'fill-green-500'
+										])}>
 										<LockIcon />
 									</span>
 								</Input>
 							</fieldset>
 
-							<fieldset className='flex items-center justify-between mx-4'>
-								<Input
-									name='persist'
-									required={false}
-									type={'checkbox'}
-									wrapperStyle={cm([
-										'flex items-center gap-4 cursor-pointer p-2 rounded-md',
-										'focus-within:ring-2 focus-within:ring-Orange'
-									])}>
-									<p className='text-xl font-bold text-Grayish_blue hover:text-Orange/75'>
-										keep me logged in
-									</p>
-								</Input>
-
-								<Button className='p-2 rounded lg:text-xl text-Grayish_blue hover:text-Orange/75 focus-visible:outline-Orange'>
-									Recover password
+							<fieldset>
+								<Button className='p-2 rounded lg:text-xl text-Grayish_blue hover:text-Orange/75 focus-visible:outline-Orange focus:outline-Orange'>
+									Recover my password
 								</Button>
 							</fieldset>
 						</div>
 
 						<fieldset className='relative flex flex-col gap-8'>
-							<small
-								className={cm([
-									'absolute left-1/2 -translate-x-1/2 w-full px-16',
-									'text-xl text-red-500 font-semibold text-center tracking-wide',
-									'transition-[opacity,transform]  duration-300 ease-in-out',
-									serverErrMsg
-										? '-translate-y-10 opacity-100 visible'
-										: '-translate-y-0 opacity-0 invisible'
-								])}>
-								{serverErrMsg}
-							</small>
+							<ServerErrorMsg message={serverErrMsg} transY='-translate-y-12' />
 
 							<Button
 								hasRipple
