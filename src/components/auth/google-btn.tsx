@@ -27,7 +27,18 @@ export const GoogleButton = () => {
 			])}>
 			<Image src={googleIcon} alt='google icon' className='w-8 h-8' />
 			<span>continue with google</span>
-			{isLoading && <SpinnerIcon className='absolute right-10 p-1' />}
+			{isLoading && (
+				<SpinnerIcon
+					className={cm([
+						'absolute right-10 p-1 after:p-3',
+						'after:border-t-red-500',
+						'after:border-l-amber-500',
+						'after:border-b-green-500',
+						'after:border-r-blue-500',
+						'animate-[spin_1s_linear_infinite]'
+					])}
+				/>
+			)}
 		</Button>
 	);
 };
