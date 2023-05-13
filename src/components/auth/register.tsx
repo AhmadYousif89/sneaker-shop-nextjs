@@ -192,6 +192,7 @@ export const Register = () => {
 							<Button
 								hasRipple
 								type='submit'
+								disabled={isSubmitting}
 								variant={'secondary_orange'}
 								onClick={() => validateForm()}
 								className='mt-8 shadow'>

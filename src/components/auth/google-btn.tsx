@@ -19,8 +19,8 @@ export const GoogleButton = () => {
 
 	return (
 		<Button
-			hasRipple
 			onClick={handleLogin}
+			disabled={isLoading}
 			rippleColor='bg-Dark_grayish_blue'
 			className={cm([
 				'relative flex items-center justify-center gap-4 py-5 font-bold shadow ring-1 ring-Grayish_blue text-Dark_grayish_blue focus-visible:outline-offset-4 lg:text-xl'

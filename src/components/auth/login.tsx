@@ -156,6 +156,7 @@ export const Login = () => {
 							<Button
 								hasRipple
 								type='submit'
+								disabled={isSubmitting}
 								variant={'secondary_orange'}
 								onClick={() => validateForm()}
 								className='py-6 shadow'>
