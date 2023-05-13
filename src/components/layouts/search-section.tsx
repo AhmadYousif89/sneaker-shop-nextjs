@@ -8,7 +8,7 @@ export const SearchSection = () => {
 			<h2 className='mx-8 mb-16 text-4xl font-bold text-center capitalize text-Very_light_grayish_blue'>
 				search your favorite sneakers
 			</h2>
-			<div className='flex items-center gap-4 mx-auto lg:gap-8 lg:max-w-3xl'>
+			<div className='flex items-center gap-4 mx-auto lg:gap-8 lg:max-w-3xl max-w-lg'>
 				<Input
 					id='search'
 					type='text'
