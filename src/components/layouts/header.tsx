@@ -12,7 +12,7 @@ import { TopNavigation } from './top-nav';
 import { Button } from '../ui/button';
 
 export const Header = ({ children }: { children: React.ReactNode }) => {
-	const { data: session } = useSession();
+	const { data: session, status } = useSession();
 	const cart = useCartStore(s => s.cart);
 	const getTotalQty = useCartStore(s => s.getTotalQty);
 	const setCartStatus = useUIStore(s => s.setCartStatus);
@@ -36,7 +36,7 @@ export const Header = ({ children }: { children: React.ReactNode }) => {
 
 			<div className='flex items-center gap-8 lg:gap-16'>
 				<div className='relative flex'>
-					<Button onClick={() => setCartStatus(pv => !pv)} title='show cart' className=''>
+					<Button onClick={() => setCartStatus(pv => !pv)} title='show cart'>
 						{cart.length > 0 && (
 							<span className='absolute px-3 text-xl font-bold text-white -top-3 left-3 bg-Orange rounded-3xl'>
 								{totalQty}
@@ -54,7 +54,11 @@ export const Header = ({ children }: { children: React.ReactNode }) => {
 						'w-14 h-14 hover:ring-2 hover:ring-Orange focus-visible:outline-Orange',
 						userModalStatus && 'ring-2 ring-Orange'
 					])}>
-					{session?.user.email ? (
+					{status === 'loading' ? (
+						<div className='w-14 h-14 rounded-full bg-Grayish_blue animate-pulse'>
+							&nbsp;
+						</div>
+					) : session?.user.email ? (
 						<Image
 							src={session?.user?.image ? session?.user.image : profileImg}
 							alt='profile image'

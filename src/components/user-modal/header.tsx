@@ -1,9 +1,10 @@
-import { Dispatch, FC, SetStateAction } from 'react';
+import { FC, Dispatch, SetStateAction } from 'react';
 import { cm } from '@/lib/class-merger';
 import { useUserStore } from '@/store';
+import { useHydratedState } from '@/hooks/use-hydrated-state';
 
-import { TabLitralValues, tabs } from './user-modal';
 import { Button } from '../ui/button';
+import { TabLitralValues, tabs } from './user-modal';
 
 type ModalHeaderProps = {
 	selectedTab: TabLitralValues;
@@ -12,6 +13,9 @@ type ModalHeaderProps = {
 
 export const ModalHeader: FC<ModalHeaderProps> = ({ setSelectedTab, selectedTab }) => {
 	const { favoriteList, historyList, orderList } = useUserStore(state => state);
+	const favoriteListLength = useHydratedState(favoriteList.length, 0);
+	const historyListLength = useHydratedState(historyList.length, 0);
+	const orderListLength = useHydratedState(orderList.length, 0);
 
 	return (
 		<header className='flex items-center justify-between gap-2 p-8 tracking-wide capitalize border-b border-Grayish_blue/25'>
@@ -30,9 +34,9 @@ export const ModalHeader: FC<ModalHeaderProps> = ({ setSelectedTab, selectedTab 
 					<span>{tab}</span>
 					{/* prettier-ignore */}
 					<span className='ml-4 px-2 py-1 min-w-[2rem] rounded-md ring-1 ring-Grayish_blue text-xl'>
-							{tab === 'favorites' ? favoriteList.length > 99 ? '99+': favoriteList.length : ''}
-							{tab === 'history' ? historyList.length > 99 ? '99+' : historyList.length : ''}
-							{tab === 'orders' ? orderList.length > 99 ? '99+' : orderList.length : ''}
+							{tab === 'favorites' ? +favoriteListLength > 99 ? '99+': favoriteListLength : ''}
+							{tab === 'history' ? +historyListLength > 99 ? '99+' : historyListLength : ''}
+							{tab === 'orders' ? +orderListLength > 99 ? '99+' : orderListLength : ''}
 						</span>
 				</Button>
 			))}

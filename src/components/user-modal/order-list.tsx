@@ -1,10 +1,12 @@
 import { useUserStore } from '@/store';
 import { ListItem } from './list-item';
+import { useHydratedState } from '@/hooks/use-hydrated-state';
 
 export const OrderList = () => {
 	const orderList = useUserStore(s => s.orderList);
+	const orderListLength = useHydratedState(orderList.length, 0);
 
-	if (orderList.length === 0)
+	if (orderListLength === 0)
 		return (
 			<h2 className='text-center place-self-center'>
 				Looks like you haven't purchased any sneaker lately !

@@ -1,18 +1,20 @@
 import Image from 'next/image';
 import { useState } from 'react';
-
 import { useUserStore } from '@/store';
+import { useHydratedState } from '@/hooks/use-hydrated-state';
+
 import { CloseIcon } from '../icons';
+import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { ListItem } from './list-item';
-import { Input } from '../ui/input';
 
 export const FavoriteList = () => {
 	const [query, setQuery] = useState('');
 	const favoriteList = useUserStore(s => s.favoriteList);
 	const toggleItemFavorite = useUserStore(s => s.toggleItemFavorite);
+	const favoriteListLength = useHydratedState(favoriteList.length, 0);
 
-	if (favoriteList.length === 0)
+	if (favoriteListLength === 0)
 		return <h2 className='place-self-center'>You don't have any favorites !</h2>;
 
 	const filteredFavList = favoriteList.filter(item =>
@@ -34,7 +36,7 @@ export const FavoriteList = () => {
 				placeholder='Search your favorite sneaker'
 			/>
 
-			{filteredFavList.length === 0 && noQueryMsg}
+			{favoriteListLength === 0 && noQueryMsg}
 
 			<ul className='grid grid-cols-2 gap-2 mt-12 lg:grid-cols-3'>
 				{filteredFavList.map(item => (

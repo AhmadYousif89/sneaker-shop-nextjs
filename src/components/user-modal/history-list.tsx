@@ -4,12 +4,14 @@ import { useUserStore } from '@/store';
 import { Button } from '../ui/button';
 import { CloseIcon } from '../icons';
 import { ListItem } from './list-item';
+import { useHydratedState } from '@/hooks/use-hydrated-state';
 
 export const HistoryList = () => {
 	const historyList = useUserStore(s => s.historyList);
 	const removeItemHistory = useUserStore(s => s.removeItemHistory);
+	const historyListLength = useHydratedState(historyList.length, 0);
 
-	if (historyList.length === 0)
+	if (historyListLength === 0)
 		return (
 			<h2 className='text-center place-self-center'>
 				You have no history, you can start with our awesome collections
