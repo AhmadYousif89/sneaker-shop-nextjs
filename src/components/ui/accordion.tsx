@@ -7,7 +7,7 @@ import {
 	useState
 } from 'react';
 import { cm } from '@/lib/class-merger';
-import { ChevronIcon } from '../icons';
+import { ChevronLeftIcon } from '../icons';
 import { Button } from './button';
 
 type AccordionProps = {
@@ -52,7 +52,7 @@ export const Accordion: FC<AccordionProps> = ({
 					onClick={handleClick}
 					aria-expanded={isExpanded}
 					className='bg-white rounded-full focus-visible:outline-Very_dark_blue focus-visible:outline-dotted'>
-					<ChevronIcon
+					<ChevronLeftIcon
 						className={cm([
 							'transition-transform duration-300 rotate-90',
 							'hover:fill-Orange',

@@ -40,7 +40,7 @@ const ToolTip: FC<ToolTipProps> = ({
 			ref={policyRef}
 			data-tip={tip}
 			className={cm([
-				'relative z-30 cursor-pointer after:bg-Very_dark_blue',
+				'relative flex z-30 cursor-pointer after:bg-Very_dark_blue',
 				// position & dimensions
 				'after:absolute after:-top-2 after:px-6 after:py-3 after:rounded-md after:w-max',
 				renderLeft && 'after:left-0',

@@ -1,15 +1,18 @@
 'use client';
 import Image from 'next/image';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useProductStore, useUIStore } from '@/store';
 import { useCarousel } from '@/hooks/use-carousel';
 import { product } from '@/data/featured-product';
+import { cm } from '@/lib/class-merger';
 
+import ToolTip from '../ui/tooltip';
 import { Button } from '../ui/button';
-import { CloseIcon, ChevronIcon } from '../icons';
+import { CloseIcon, ChevronLeftIcon, ChevronRightIcon } from '../icons';
 
 export const ProductCarousel = ({ inLightbox = false }) => {
 	const mainCarouselRef = useRef<HTMLDivElement>(null);
+	const [isHovered, setIsHovered] = useState(false);
 	const curImageIdx = useProductStore(s => s.curImageIdx);
 	const curImageHandler = useProductStore(s => s.curImageHandler);
 	const setLightboxStatus = useUIStore(s => s.setLightboxStatus);
@@ -69,11 +72,18 @@ export const ProductCarousel = ({ inLightbox = false }) => {
 			<div ref={carouselRef} className='lg:max-w-3xl'>
 				{inLightbox && (
 					<Button
-						title='close lightbox'
 						ref={closeButtonRef}
 						onClick={() => setLightboxStatus(false)}
-						className='p-1 mb-3 rounded focus-visible:outline-offset-4 focus-visible:outline-Light_grayish_blue'>
-						<CloseIcon className='hover:fill-Orange fill-white' />
+						className={cm([
+							'group p-1 rounded -translate-y-3',
+							'focus-visible:outline-offset-4 focus-visible:outline-Light_grayish_blue'
+						])}>
+						<ToolTip
+							tip={'close lightbox or press Esc key'}
+							className='place-self-start after:-top-4'
+							renderOnHover>
+							<CloseIcon className='group-hover:fill-Orange fill-white' />
+						</ToolTip>
 					</Button>
 				)}
 
@@ -81,7 +91,10 @@ export const ProductCarousel = ({ inLightbox = false }) => {
 				<div
 					ref={mainCarouselRef}
 					tabIndex={0}
-					className='relative outline-none group lg:focus-visible:outline-Orange lg:focus-visible:outline-1 rounded-3xl'>
+					className={cm([
+						'relative outline-none group rounded-3xl',
+						'lg:focus-visible:outline-Orange lg:focus-visible:outline-1'
+					])}>
 					<figure className='relative flex items-center overflow-hidden lg:rounded-3xl'>
 						{(prodFullImgs as string[]).map((image, idx) => (
 							<Image
@@ -101,31 +114,53 @@ export const ProductCarousel = ({ inLightbox = false }) => {
 						<Button
 							ref={prevBtnRef}
 							variant={'carousel'}
-							title={'previous image'}
 							onClick={displayPrevImage}
-							className={`lg:hidden group-hover:block group-focus-within:block z-30 absolute top-1/2 left-0 translate-x-1/2 -translate-y-1/2 ${
-								inLightbox ? 'lg:block -translate-x-1/2' : ''
-							}`}>
-							<ChevronIcon className='hover:fill-Orange' />
+							className={cm([
+								'group/prev-btn lg:hidden',
+								'absolute top-1/2 left-0 translate-x-1/2 -translate-y-1/2',
+								'group-hover:block group-focus-within:block',
+								inLightbox && 'lg:block -translate-x-1/2'
+							])}>
+							<ToolTip
+								tip={'previous image'}
+								className='after:-top-5 after:duration-400'
+								renderCenter
+								renderOnHover>
+								<ChevronLeftIcon className='group-hover/prev-btn:fill-Orange' />
+							</ToolTip>
 						</Button>
 
 						<Button
 							ref={nextBtnRef}
-							title='next image'
 							variant={'carousel'}
 							onClick={displayNextImage}
-							className={`lg:hidden group-hover:block group-focus-within:block z-30 absolute top-1/2 right-0 -translate-x-1/2 -translate-y-1/2 rotate-180 ${
-								inLightbox ? 'lg:block translate-x-1/2' : ''
-							}`}>
-							<ChevronIcon className='hover:fill-Orange' />
+							className={cm([
+								'group/next-btn lg:hidden',
+								'absolute top-1/2 right-0 -translate-x-1/2 -translate-y-1/2 z-30',
+								'group-hover:block group-focus-within:block',
+								inLightbox && 'lg:block translate-x-1/2'
+							])}>
+							<ToolTip
+								tip={'next image'}
+								className='after:-top-5 after:duration-400'
+								renderCenter
+								renderOnHover>
+								<ChevronRightIcon className='group-hover/next-btn:fill-Orange' />
+							</ToolTip>
 						</Button>
 					</div>
 
 					{/* SHOWCASE BUTTON */}
 					<div
-						className={`hidden lg:flex items-center justify-between w-full absolute bottom-4 px-4 tracking-wider text-Very_light_grayish_blue opacity-0 translate-y-5 group-hover:translate-y-0 group-focus-within:translate-y-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-all duration-300 ${
-							inLightbox ? 'lg:hidden' : ''
-						}`}>
+						className={cm([
+							'hidden w-full px-4',
+							'lg:flex items-center justify-between',
+							'absolute bottom-4 translate-y-5 opacity-0 transition-all duration-300',
+							'tracking-wider text-Very_light_grayish_blue',
+							'group-hover:translate-y-0 group-hover:opacity-100',
+							'group-focus-within:opacity-100 group-focus-within:translate-y-0',
+							inLightbox && 'lg:hidden'
+						])}>
 						<p className='p-4 text-xl rounded-md bg-Very_dark_blue/50 ring-1 ring-Very_light_grayish_blue'>
 							Slide with <span>⬅</span> and <span>➡</span>
 						</p>
@@ -149,9 +184,13 @@ export const ProductCarousel = ({ inLightbox = false }) => {
 							key={`thumb_${idx}`}
 							aria-current={idx === curImageIdx}
 							onClick={() => curImageHandler(idx)}
-							className={`overflow-hidden rounded-2xl border-Orange [&[aria-current="true"]]:border-2 after:absolute after:inset-0 [&[aria-current="true"]]:after:bg-Pale_orange after:opacity-50 shadow focus-visible:outline-offset-2 shadow-Grayish_blue ${
-								inLightbox ? 'shadow-none focus-visible:outline-Light_grayish_blue' : ''
-							}`}>
+							className={cm([
+								'overflow-hidden rounded-2xl border-Orange shadow shadow-Grayish_blue',
+								'[&[aria-current="true"]]:border-2 [&[aria-current="true"]]:after:bg-Pale_orange',
+								'after:absolute after:inset-0  after:opacity-50',
+								'focus-visible:outline-offset-2',
+								inLightbox && 'shadow-none focus-visible:outline-Light_grayish_blue'
+							])}>
 							<Image src={imgThumb} alt='sneakers thumbnail image' className='w-40' />
 						</Button>
 					))}

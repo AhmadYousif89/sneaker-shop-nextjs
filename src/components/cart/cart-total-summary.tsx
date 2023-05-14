@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { signIn, useSession } from 'next-auth/react';
 import { PromoCodes, useCartStore, useUserStore } from '@/store';
-import { TOrder } from '@/types/order';
 import { cm } from '@/lib/class-merger';
+import { TOrder } from '@/types/order';
+import { wait } from '@/lib/wait';
 
 import ToolTip from '../ui/tooltip';
 import { Button } from '../ui/button';
 import { Accordion } from '../ui/accordion';
 import { CloseIcon, InfoIcon, SpinnerIcon } from '../icons';
-import { signIn, useSession } from 'next-auth/react';
-import { wait } from '@/lib/wait';
 
 export const CartTotalSummary = () => {
 	const router = useRouter();
@@ -69,7 +69,7 @@ export const CartTotalSummary = () => {
 				bodyStyle='bg-transparent shadow-sm'>
 				{/* Wrapper */}
 				<div className='relative p-8'>
-					<div className='flex flex-col gap-4 mb-8'>
+					<div className='flex flex-col gap-4 mb-8 font-medium lg:font-normal'>
 						{/* SUBTOTAL */}
 						<p className='flex items-center justify-between text-Dark_grayish_blue'>
 							<span>subtotal</span>
@@ -96,13 +96,13 @@ export const CartTotalSummary = () => {
 						</div>
 
 						{/* DISCOUNT */}
-						<div className='flex items-center justify-between text-green-400'>
+						<div className='flex items-center justify-between text-green-500'>
 							<span>you just saved</span>
 							<span>${totalDiscount.toFixed(2)}</span>
 						</div>
 
 						{/* DELIVERY */}
-						<div className='flex items-center justify-between text-indigo-400'>
+						<div className='flex items-center justify-between text-indigo-500'>
 							<ToolTip
 								renderOnHover
 								className='flex items-center gap-2'

@@ -9,7 +9,7 @@ import { CartTotalSummary } from './cart-total-summary';
 import { PromoCodeInput } from './promo-code';
 import { CartPageList } from './cart-page-list';
 import { ActionModal } from '../ui/action-modal';
-import { ChevronIcon, DeleteIcon, CopyIcon } from '../icons';
+import { ChevronLeftIcon, DeleteIcon, CopyIcon } from '../icons';
 
 import sideImg from '../../../public/assets/images/chkout.jpg';
 import emptyCartImg from '../../../public/assets/images/cart-empty.png';
@@ -70,7 +70,7 @@ export const Cart = () => {
 						title='previous page'
 						onClick={() => router.back()}
 						className='absolute left-0 flex items-center justify-center w-16 h-16 p-0 -translate-y-1/2 group bg-Light_grayish_blue top-1/2'>
-						<ChevronIcon className='group-hover:fill-Orange group-focus-visible:fill-Orange' />
+						<ChevronLeftIcon className='group-hover:fill-Orange group-focus-visible:fill-Orange' />
 					</Button>
 
 					<h2 className='text-4xl font-bold text-center text-Very_dark_blue'>My Cart</h2>
