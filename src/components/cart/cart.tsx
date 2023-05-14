@@ -4,16 +4,16 @@ import { useRouter } from 'next/navigation';
 import { MouseEventHandler, useEffect, useState } from 'react';
 
 import { useCartStore } from '@/store';
-import { Button } from '../ui/button';
+import { ChevronLeftIcon, DeleteIcon, CopyIcon } from '../icons';
 import { CartTotalSummary } from './cart-total-summary';
 import { PromoCodeInput } from './promo-code';
 import { CartPageList } from './cart-page-list';
 import { ActionModal } from '../ui/action-modal';
-import { ChevronLeftIcon, DeleteIcon, CopyIcon } from '../icons';
+import { Button } from '../ui/button';
+import { ToolTip } from '../ui/tooltip';
 
 import sideImg from '../../../public/assets/images/chkout.jpg';
 import emptyCartImg from '../../../public/assets/images/cart-empty.png';
-import ToolTip from '../ui/tooltip';
 
 export const Cart = () => {
 	const router = useRouter();
@@ -81,8 +81,8 @@ export const Cart = () => {
 							code
 							<ToolTip
 								onClick={handleCopy}
-								title='copy promo code'
 								tip={'copied ✅'}
+								title='copy promo code'
 								className='inline-flex gap-2 mx-2 cursor-pointer text-Orange'>
 								<span>ILoveYou_50</span>
 								<CopyIcon />

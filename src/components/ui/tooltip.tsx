@@ -9,29 +9,34 @@ type ToolTipProps = {
 	renderLeft?: boolean;
 	renderRight?: boolean;
 	renderCenter?: boolean;
+	renderTime?: number;
 } & HTMLAttributes<HTMLSpanElement>;
 
-const ToolTip: FC<ToolTipProps> = ({
+export const ToolTip: FC<ToolTipProps> = ({
 	tip,
 	children,
 	className,
-	renderOnHover,
-	renderLeft = true,
 	renderRight,
 	renderCenter,
+	renderLeft = true,
+	renderTime = 3000,
 	shouldRender = true,
+	renderOnHover = false,
 	...props
 }) => {
 	const timeoutRef = useRef<NodeJS.Timeout>();
 	const [showTip, setShowTip] = useState(false);
+
+	const handleShowTip = () => {
+		setShowTip(pv => !pv);
+		clearTimeout(timeoutRef.current);
+		timeoutRef.current = setTimeout(() => {
+			setShowTip(false);
+		}, renderTime);
+	};
+
 	const { ref: policyRef } = useEventListener({
-		insideHandler: () => {
-			setShowTip(pv => !pv);
-			clearTimeout(timeoutRef.current);
-			timeoutRef.current = setTimeout(() => {
-				setShowTip(false);
-			}, 3000);
-		},
+		insideHandler: () => handleShowTip(),
 		outsideHandler: () => setShowTip(false)
 	});
 
@@ -40,9 +45,9 @@ const ToolTip: FC<ToolTipProps> = ({
 			ref={policyRef}
 			data-tip={tip}
 			className={cm([
-				'relative flex z-30 cursor-pointer after:bg-Very_dark_blue',
+				'relative flex cursor-pointer after:bg-Very_dark_blue',
 				// position & dimensions
-				'after:absolute after:-top-2 after:px-6 after:py-3 after:rounded-md after:w-max',
+				'after:absolute after:z-30 after:-top-2 after:px-6 after:py-3 after:rounded-md after:w-max',
 				renderLeft && 'after:left-0',
 				renderRight && 'after:right-0',
 				renderCenter && 'after:left-1/2 after:-translate-x-1/2',
@@ -62,5 +67,3 @@ const ToolTip: FC<ToolTipProps> = ({
 		</span>
 	);
 };
-
-export default ToolTip;

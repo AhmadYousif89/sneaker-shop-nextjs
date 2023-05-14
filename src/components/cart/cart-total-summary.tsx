@@ -6,7 +6,7 @@ import { cm } from '@/lib/class-merger';
 import { TOrder } from '@/types/order';
 import { wait } from '@/lib/wait';
 
-import ToolTip from '../ui/tooltip';
+import { ToolTip } from '../ui/tooltip';
 import { Button } from '../ui/button';
 import { Accordion } from '../ui/accordion';
 import { CloseIcon, InfoIcon, SpinnerIcon } from '../icons';

@@ -6,7 +6,7 @@ import { useCarousel } from '@/hooks/use-carousel';
 import { product } from '@/data/featured-product';
 import { cm } from '@/lib/class-merger';
 
-import ToolTip from '../ui/tooltip';
+import { ToolTip } from '../ui/tooltip';
 import { Button } from '../ui/button';
 import { CloseIcon, ChevronLeftIcon, ChevronRightIcon } from '../icons';
 
@@ -79,7 +79,7 @@ export const ProductCarousel = ({ inLightbox = false }) => {
 							'focus-visible:outline-offset-4 focus-visible:outline-Light_grayish_blue'
 						])}>
 						<ToolTip
-							tip={'close lightbox or press Esc key'}
+							tip={'Close lightbox or press Esc key'}
 							className='place-self-start after:-top-4'
 							renderOnHover>
 							<CloseIcon className='group-hover:fill-Orange fill-white' />
@@ -111,43 +111,51 @@ export const ProductCarousel = ({ inLightbox = false }) => {
 
 					{/* ARROWS */}
 					<div>
-						<Button
-							ref={prevBtnRef}
-							variant={'carousel'}
-							onClick={displayPrevImage}
+						<ToolTip
+							tip={'previous image'}
 							className={cm([
-								'group/prev-btn lg:hidden',
-								'absolute top-1/2 left-0 translate-x-1/2 -translate-y-1/2',
-								'group-hover:block group-focus-within:block',
-								inLightbox && 'lg:block -translate-x-1/2'
-							])}>
-							<ToolTip
-								tip={'previous image'}
-								className='after:-top-5 after:duration-400'
-								renderCenter
-								renderOnHover>
+								'after:-top-12 after:duration-400',
+								'absolute top-1/2 left-0 translate-x-1/2 -translate-y-1/2'
+							])}
+							renderTime={1000}
+							renderCenter
+							renderOnHover>
+							<Button
+								ref={prevBtnRef}
+								variant={'carousel'}
+								onClick={displayPrevImage}
+								className={cm([
+									'group/prev-btn lg:hidden',
+									'absolute top-1/2 left-0 translate-x-1/2 -translate-y-1/2',
+									'group-hover:block group-focus-within:block',
+									inLightbox && 'lg:block -translate-x-1/2'
+								])}>
 								<ChevronLeftIcon className='group-hover/prev-btn:fill-Orange' />
-							</ToolTip>
-						</Button>
+							</Button>
+						</ToolTip>
 
-						<Button
-							ref={nextBtnRef}
-							variant={'carousel'}
-							onClick={displayNextImage}
+						<ToolTip
+							tip={'next image'}
 							className={cm([
-								'group/next-btn lg:hidden',
-								'absolute top-1/2 right-0 -translate-x-1/2 -translate-y-1/2 z-30',
-								'group-hover:block group-focus-within:block',
-								inLightbox && 'lg:block translate-x-1/2'
-							])}>
-							<ToolTip
-								tip={'next image'}
-								className='after:-top-5 after:duration-400'
-								renderCenter
-								renderOnHover>
+								'after:-top-12 after:duration-400',
+								'absolute top-1/2 right-0 translate-x-1/2 -translate-y-1/2'
+							])}
+							renderTime={1000}
+							renderCenter
+							renderOnHover>
+							<Button
+								ref={nextBtnRef}
+								variant={'carousel'}
+								onClick={displayNextImage}
+								className={cm([
+									'group/next-btn lg:hidden',
+									'absolute top-1/2 right-0 -translate-x-1/2 -translate-y-1/2 z-30',
+									'group-hover:block group-focus-within:block',
+									inLightbox && 'lg:block translate-x-1/2'
+								])}>
 								<ChevronRightIcon className='group-hover/next-btn:fill-Orange' />
-							</ToolTip>
-						</Button>
+							</Button>
+						</ToolTip>
 					</div>
 
 					{/* SHOWCASE BUTTON */}
