@@ -1,6 +1,6 @@
 import { useUserStore } from '@/store';
 import { ListItem } from './list-item';
-import { useHydratedState } from '@/hooks/use-hydrated-state';
+import { useHydratedState } from '@/hooks/use-hydrate';
 
 export const OrderList = () => {
 	const orderList = useUserStore(s => s.orderList);

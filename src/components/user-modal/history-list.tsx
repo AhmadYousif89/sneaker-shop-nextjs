@@ -4,7 +4,7 @@ import { useUserStore } from '@/store';
 import { Button } from '../ui/button';
 import { CloseIcon } from '../icons';
 import { ListItem } from './list-item';
-import { useHydratedState } from '@/hooks/use-hydrated-state';
+import { useHydratedState } from '@/hooks/use-hydrate';
 
 export const HistoryList = () => {
 	const historyList = useUserStore(s => s.historyList);

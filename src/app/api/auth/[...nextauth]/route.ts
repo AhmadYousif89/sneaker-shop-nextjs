@@ -4,7 +4,7 @@ import GoogleProvider from 'next-auth/providers/google';
 import { prisma } from '@/lib/db';
 import { compare } from 'bcrypt';
 
-const authOptions: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
 	session: { strategy: 'jwt', maxAge: 60 * 60 * 24 * 7 },
 	providers: [
 		CredentialsProvider({
@@ -34,7 +34,7 @@ const authOptions: NextAuthOptions = {
 				...session,
 				user: {
 					...session.user,
-					userId: token.id
+					id: token.id
 				}
 			};
 		},
@@ -43,7 +43,7 @@ const authOptions: NextAuthOptions = {
 				const u = user as unknown as any;
 				return {
 					...token,
-					userId: u.id
+					id: u.id
 				};
 			}
 			return token;

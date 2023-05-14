@@ -1,19 +1,17 @@
 'use client';
 import { useState } from 'react';
-import { useUserStore } from '@/store';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { useUserStore } from '@/store';
 import Loading from '@/app/loading';
-import { cm } from '@/lib/class-merger';
-import { useHydratedStore } from '@/hooks/use-hydrated-store';
 
 import { DeleteIcon } from '../icons';
 import { Button } from '../ui/button';
-import { ActionModal } from '../ui/action-modal';
-import { ItemsDetails } from './items-details';
 import { OrderStatus } from './order-status';
+import { ItemsDetails } from './items-details';
 import { OrderSummary } from './order-summary';
 import { PersonalInfo } from './personal-info';
+import { ActionModal } from '../ui/action-modal';
 
 export const Order = ({ id }: { id: string }) => {
 	const router = useRouter();
@@ -22,10 +20,6 @@ export const Order = ({ id }: { id: string }) => {
 
 	const deleteOrder = useUserStore(s => s.deleteOrder);
 	const curOrder = useUserStore(s => s.orderList.find(order => order.id === id));
-
-	// const curOrder = useHydratedStore(useUserStore, s =>
-	// 	s.orderList.find(order => order.id === id)
-	// );
 
 	if (status === 'loading') return <Loading />;
 

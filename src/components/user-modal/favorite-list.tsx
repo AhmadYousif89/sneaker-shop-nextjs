@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import { useUserStore } from '@/store';
-import { useHydratedState } from '@/hooks/use-hydrated-state';
+import { useHydratedState } from '@/hooks/use-hydrate';
 
 import { CloseIcon } from '../icons';
 import { Input } from '../ui/input';

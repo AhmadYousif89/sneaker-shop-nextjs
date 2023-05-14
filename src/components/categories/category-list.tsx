@@ -1,4 +1,3 @@
-'use client';
 import { cm } from '@/lib/class-merger';
 import { useProductStore } from '@/store';
 import { CategoryItem } from './category-item';

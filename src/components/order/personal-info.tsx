@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { useUserStore } from '@/store';
 import { useSession } from 'next-auth/react';
-import { useHydratedStore } from '@/hooks/use-hydrated-store';
+import { useHydratedStore } from '@/hooks/use-hydrate';
 
 import { SectionWrapper } from './section-wrapper';
 import moneyImg from '../../../public/assets/images/money.png';

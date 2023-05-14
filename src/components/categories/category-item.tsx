@@ -1,22 +1,21 @@
 'use client';
 import Image from 'next/image';
 import { useUserStore } from '@/store';
-import { TProduct } from '@/types/product';
 import { cm } from '@/lib/class-merger';
+import { TProduct } from '@/types/product';
+import { useHydratedState } from '@/hooks/use-hydrate';
 
 import { Button } from '../ui/button';
 import { FavorIcon } from '../icons/favorite';
 import { DiscountTag } from '../ui/discount-tag';
-import { useHydratedStore } from '@/hooks/use-hydrated-store';
 
 export const CategoryItem = ({ item }: { item: TProduct }) => {
 	const favoriteList = useUserStore(s => s.favoriteList);
-	// const favoriteList = useHydratedStore(useUserStore, s => s.favoriteList);
 	const toggleItemFavorite = useUserStore(s => s.toggleItemFavorite);
 
 	const productImage = item.image.thumb as string;
 	const favoredItem = favoriteList.find(i => i.id === item.id);
-	const itemIsFavored = favoredItem ? true : false;
+	const isFavored = useHydratedState(favoredItem && true, false);
 
 	const handleFavoriteBtn = () => toggleItemFavorite(item);
 
@@ -55,7 +54,7 @@ export const CategoryItem = ({ item }: { item: TProduct }) => {
 					</span>
 					<Button hasRipple onClick={handleFavoriteBtn}>
 						<span className='sr-only'>add sneaker to favorites</span>
-						<FavorIcon fill={itemIsFavored} />
+						<FavorIcon fill={isFavored} />
 					</Button>
 				</div>
 			</div>

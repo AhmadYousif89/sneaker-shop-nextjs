@@ -13,3 +13,13 @@ export const useHydratedStore = <S, T>(
 
 	return state;
 };
+
+export const useHydratedState = <T>(value: T, initState: T) => {
+	const [state, setState] = useState<T>(initState);
+
+	useEffect(() => {
+		setState(value);
+	}, [value]);
+
+	return state;
+};
