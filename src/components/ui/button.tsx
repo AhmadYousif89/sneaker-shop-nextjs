@@ -15,14 +15,12 @@ import { Ripple } from './ripple';
 export type RippleDimension = { size: number; x: number; y: number };
 
 // prettier-ignore
-type ButtonProps = ComponentPropsWithRef<'button'> & ComponentPropsWithRef<'a'> & VariantProps<typeof buttonClasses>;
-
-type Props = {
+type ButtonProps = {
 	href?: string;
 	hasRipple?: boolean;
 	rippleColor?: string;
 	exact?: boolean;
-} & ButtonProps;
+} & ComponentPropsWithRef<'button'> & ComponentPropsWithRef<'a'> & VariantProps<typeof buttonClasses>;
 
 const buttonClasses = cva(
 	[
@@ -139,7 +137,7 @@ const buttonClasses = cva(
 	}
 );
 
-export const Button = forwardRef<HTMLButtonElement, Props>(
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 	(
 		{
 			hasRipple,
@@ -208,7 +206,6 @@ export const Button = forwardRef<HTMLButtonElement, Props>(
 		return (
 			<button
 				type='button'
-				// tabIndex={0}
 				onPointerDown={onPointerDown}
 				ref={ref as ForwardedRef<HTMLButtonElement>}
 				className={cm(hasRipple && 'overflow-hidden', buttonClasses(classes))}

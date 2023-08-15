@@ -35,12 +35,12 @@ const inputClasses = cva('rounded-lg text-xl lg:text-2xl outline-none', {
 				'lg:placeholder:text-2xl'
 			],
 			search_favorite: [
-				'px-6 py-2 ml-4 w-full',
+				'px-6 py-3',
 				'text-Very_dark_blue',
 				'ring-1 ring-Grayish_blue',
 				'rounded-md shadow caret-Orange',
 				'focus-visible:outline-Orange focus-visible:outline-1',
-				'placeholder:text-center placeholder:text-xl'
+				'placeholder:text-center placeholder:text-lg'
 			]
 		},
 		rounded: {

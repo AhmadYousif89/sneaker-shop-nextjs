@@ -1,7 +1,7 @@
 import { CartDiscount } from '../store';
-import { TCartItem } from '.';
+import { TCartItem } from './cart';
 
-type TOrder = {
+export type TOrder = {
 	id: string;
 	cart: TCartItem[];
 	subtotal: number;

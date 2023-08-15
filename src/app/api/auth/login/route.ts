@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import * as bcrypt from 'bcrypt';
+import { compare } from 'bcrypt';
 import { prisma } from '@/lib/db';
 import { EMAIL_REGEX, PASSWORD_REGEX } from '@/lib/regex';
 
@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
 		});
 	}
 
-	const validatePassword = await bcrypt.compare(body.password, user.password);
+	const validatePassword = await compare(body.password, user.password);
 	if (!validatePassword)
 		return new NextResponse(JSON.stringify(null), {
 			status: 401,

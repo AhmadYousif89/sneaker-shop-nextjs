@@ -55,7 +55,7 @@ export const Header = ({ children }: { children: React.ReactNode }) => {
 						userModalStatus && 'ring-2 ring-Orange'
 					])}>
 					{status === 'loading' ? (
-						<div className='w-14 h-14 rounded-full bg-Grayish_blue animate-pulse'>
+						<div className='rounded-full w-14 h-14 bg-Grayish_blue animate-pulse'>
 							&nbsp;
 						</div>
 					) : session?.user.email ? (

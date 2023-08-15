@@ -1,12 +1,12 @@
 import { StaticImageData } from 'next/image';
 
-type TImage = string | string[] | StaticImageData | StaticImageData[];
-type TProductImage = {
+export type TImage = string | string[] | StaticImageData | StaticImageData[];
+export type TProductImage = {
 	full: TImage;
 	thumb: TImage;
 };
-type TProductCategory = 'sports' | 'fashion' | 'gym' | 'running' | 'training';
-type TProduct = {
+export type TProductCategory = 'sports' | 'fashion' | 'gym' | 'running' | 'training';
+export type TProduct = {
 	id: number;
 	title: string;
 	image: TProductImage;

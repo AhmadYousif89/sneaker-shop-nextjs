@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import * as bcrypt from 'bcrypt';
+import { hash } from 'bcrypt';
 import { prisma } from '@/lib/db';
 import { EMAIL_REGEX, NAME_REGEX, PASSWORD_REGEX } from '@/lib/regex';
 
@@ -47,8 +47,8 @@ export async function POST(req: NextRequest) {
 		});
 	}
 
-	const hash = await bcrypt.hash(body.password, 10);
-	const data = { ...body, password: hash };
+	const hashed = await hash(body.password, 10);
+	const data = { ...body, email: body.email.toLowerCase(), password: hashed };
 
 	const createdUser = await prisma.user.create({ data });
 	const { password, ...newUser } = createdUser;
