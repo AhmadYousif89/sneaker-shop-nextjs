@@ -3,6 +3,7 @@ import { FormEvent, ReactNode, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '../ui/button';
 import { cm } from '@/lib/class-merger';
+import { RequestBody } from '@/types/auth';
 
 export type SubmitHandler = (
 	e: FormEvent,

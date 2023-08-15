@@ -8,6 +8,7 @@ import { GoogleButton } from './google-btn';
 import { SwitchForm } from './switch-form';
 import { cm } from '@/lib/class-merger';
 import { ServerErrorMsg } from './server-error-msg';
+import { RequestBody } from '@/types/auth';
 
 export const Register = () => {
 	const { inputForm, handleInputChange, validateForm } = useFormInputs([

@@ -1,6 +1,7 @@
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import { RequestBody } from '@/types/auth';
 import { prisma } from '@/lib/db';
 import { compare } from 'bcrypt';
 
