@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { hash } from 'bcrypt';
 import { prisma } from '@/lib/db';
 import { EMAIL_REGEX, NAME_REGEX, PASSWORD_REGEX } from '@/lib/regex';
+import { RequestBody } from '@/types/auth';
 
 export async function POST(req: NextRequest) {
 	const body: RequestBody = await req.json();
